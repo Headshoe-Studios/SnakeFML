@@ -20,6 +20,6 @@ set(SRCS
     SnakeFML/Main.cpp
 )
 
-add_executable(${PROJECT_NAME} ${HDRS} ${SRCS})
+add_executable("${PROJECT_NAME}-exec" ${HDRS} ${SRCS})
 
-target_link_libraries(${PROJECT_NAME} ${SFML_LIBRARIES})
+target_link_libraries("${PROJECT_NAME}-exec" ${SFML_LIBRARIES})
