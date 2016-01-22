@@ -12,8 +12,8 @@ public:
 	//update the sssssnake
 	void update(float dt);
 	
-	//get body position
-	sf::Vector2f getBodyPosition();
+	//get head position
+	sf::Vector2f getHeadPosition();
 	
 	//check for collisions with mice
 	bool checkForCollision(sf::Vector2f objPos, int objSize);
