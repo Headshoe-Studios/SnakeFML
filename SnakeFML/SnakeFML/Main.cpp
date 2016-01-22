@@ -22,7 +22,7 @@ int main()
 			{
 				window.close();
 			}
-			else if (event.type = sf::Event::KeyPressed)
+			else if (event.type == sf::Event::KeyPressed)
 			{
 				switch (event.key.code)
 				{
