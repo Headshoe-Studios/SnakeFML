@@ -34,7 +34,7 @@ int main()
 
 		snake.update(dtClock.restart().asSeconds());
 
-		window.clear(sf::Color::Green); // green because... grass?
+        window.clear(sf::Color(0,128,0)); // green because... grass?
 		window.draw(snake);
 		window.draw(mouse);
 		window.display();
