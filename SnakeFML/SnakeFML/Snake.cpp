@@ -14,14 +14,7 @@ Snake::Snake(sf::RenderWindow* window) : sf::Drawable(),
 	///give it a starting position 
 	positionHistory.push_front({ 400, 400 });
 	positionHistorySize = 50;
-
-    //hackity hack
-    m_snakeBody.setPrimitiveType(sf::TrianglesStrip);
-    m_snakeBody.append({{0, 0}});
-    m_snakeBody.append({{0, 20}});
-    m_snakeBody.append({{20, 0}});
-    m_snakeBody.append({{20, 20}});
-    setPosition(400, 400);
+ 
 }
 
 void Snake::handleEvent(sf::Event event)
