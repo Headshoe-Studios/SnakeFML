@@ -109,6 +109,17 @@ sf::Vector2f Snake::getBodyPosition()
 	return positionHistory[0];
 }
 
+bool Snake::checkForCollision(sf::Vector2f objPos, int objSize)
+{ //using the 2 objects positions determine collison
+	float a = objPos.x - getBodyPosition().x;
+	float b = objPos.y - getBodyPosition().y;
+	float c = sqrt(pow(a, 2) + pow(b, 2));
+	if(c <= objSize){
+		return true;
+	}
+	return false;
+}
+
 void Snake::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     states.transform *= getTransform();

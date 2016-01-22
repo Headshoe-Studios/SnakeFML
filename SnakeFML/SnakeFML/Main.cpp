@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Snake.hpp"
 #include "Mouse.hpp"
-#include "Collision.hpp"
 
 int main()
 {
@@ -38,7 +37,7 @@ int main()
 		snake.update(dtClock.restart().asSeconds());
 		
 		//check for collision with mouse
-		if(Collision::checkForCollision(snake.getBodyPosition(), mouse.getBodyPosition(), mouse.getBodySize()))
+		if(snake.checkForCollision(mouse.getBodyPosition(), mouse.getBodySize()))
 		{
 			mouse.respawn();
 		}
