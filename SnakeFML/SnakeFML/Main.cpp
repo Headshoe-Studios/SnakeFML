@@ -9,8 +9,11 @@ int main()
 	//limit to 60 for now. Coil whine is annoying
 	window.setFramerateLimit(60);
 
+	//measure dt
+	sf::Clock dtClock;
+
 	//our snake and mouse
-	Snake snake;
+	Snake snake(&window);
 	Mouse mouse(window);
 
 	while (window.isOpen())
@@ -22,16 +25,14 @@ int main()
 			{
 				window.close();
 			}
-			else if (event.type == sf::Event::KeyPressed)
+			else if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
 			{
-				switch (event.key.code)
-				{
-				case sf::Keyboard::Space:
-					mouse.respawn();
-					break;
-				}
+				//snake handles it's input
+				snake.handleEvent(event);
 			}
 		}
+
+		snake.update(dtClock.restart().asSeconds());
 
 		window.clear(sf::Color::Green); // green because... grass?
 		window.draw(snake);
