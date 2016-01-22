@@ -1,13 +1,35 @@
 #include "Mouse.hpp"
+#include <chrono>
+#include <functional>
 
-Mouse::Mouse()
+Mouse::Mouse(sf::RenderWindow& window)
 {
+	//seed the random engine
+	auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+	randomEngine.seed(seed);
+
+	//we want randoms from 0 - screen size
+	auto size = window.getSize();
+	xDistribution = std::uniform_int_distribution<int>(0,window.getSize().x);
+	yDistribution = std::uniform_int_distribution<int>(0, window.getSize().y);
+
 	//hackity hack
 	mouseBody.setRadius(10);
+
+	respawn();
 }
 
 
-void Mouse::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void	Mouse::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(mouseBody);
+}
+
+void	Mouse::respawn()
+{
+	//get a random position
+	auto xPosition = xDistribution(randomEngine);
+	auto yPosition = yDistribution(randomEngine);
+
+	mouseBody.setPosition(xPosition, yPosition);
 }

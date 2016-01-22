@@ -11,7 +11,7 @@ int main()
 
 	//our snake and mouse
 	Snake snake;
-	Mouse mouse;
+	Mouse mouse(window);
 
 	while (window.isOpen())
 	{
@@ -19,7 +19,18 @@ int main()
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
+			{
 				window.close();
+			}
+			else if (event.type = sf::Event::KeyPressed)
+			{
+				switch (event.key.code)
+				{
+				case sf::Keyboard::Space:
+					mouse.respawn();
+					break;
+				}
+			}
 		}
 
 		window.clear(sf::Color::Green); // green because... grass?
