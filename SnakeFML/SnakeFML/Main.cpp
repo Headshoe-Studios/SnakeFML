@@ -27,10 +27,6 @@ int main()
 			}
 			else if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
 			{
-				if (event.key.code == sf::Keyboard::Escape)
-				{
-					window.close();
-				}
 				//snake handles it's input
 				snake.handleEvent(event);
 			}
