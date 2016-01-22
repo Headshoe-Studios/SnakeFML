@@ -112,18 +112,9 @@ void Snake::update(float dt)
         sf::Vector2f offset = (thickness/2.f)*unitPerpendicular;
 
         sf::Color color = sf::Color::White;
-        if(i < positionHistory.size()-2)
+        if(!windowRect.contains(point1) || !windowRect.contains(point2))
         {
-            sf::Vector2f& point3 = positionHistory[i+2];
-            if(!windowRect.contains((point3)))
-            {
-            transparent = 5;
-            }
-        }
-
-        if(!windowRect.contains((point1 + offset)) || !windowRect.contains((point2 + offset)))
-        {
-            transparent = 5;
+            transparent = 100;
         }
 
         if(transparent)
