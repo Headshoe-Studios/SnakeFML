@@ -1,5 +1,7 @@
+#include <iostream>
 #include "Snake.hpp"
 #include "Mouse.hpp"
+#include "Collision.hpp"
 
 int main()
 {
@@ -32,7 +34,14 @@ int main()
 			}
 		}
 
+		//update snake
 		snake.update(dtClock.restart().asSeconds());
+		
+		//check for collision with mouse
+		if(Collision::checkForCollision(snake.getBodyPosition(), mouse.getBodyPosition(), mouse.getBodySize()))
+		{
+			mouse.respawn();
+		}
 
 		window.clear(sf::Color::Green); // green because... grass?
 		window.draw(snake);

@@ -11,7 +11,10 @@ public:
 
 	//update the sssssnake
 	void update(float dt);
-
+	
+	//get body position
+	sf::Vector2f getBodyPosition();
+	
 	//handle events
 	void handleEvent(sf::Event event);
 

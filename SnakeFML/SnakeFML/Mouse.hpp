@@ -8,7 +8,11 @@ class Mouse : public sf::Drawable
 public:
 	Mouse(sf::RenderWindow& window);
 	~Mouse() = default;
-
+	
+	//getters for position and size
+	int getBodySize();
+	sf::Vector2f getBodyPosition();
+	
 	///Call this when you want him to respawn
 	void respawn();
 

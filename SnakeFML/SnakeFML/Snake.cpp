@@ -104,6 +104,11 @@ void Snake::update(float dt)
 	}
 }
 
+sf::Vector2f Snake::getBodyPosition()
+{
+	return positionHistory[0];
+}
+
 void Snake::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     states.transform *= getTransform();
