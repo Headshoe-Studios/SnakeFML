@@ -3,12 +3,11 @@
 Snake::Snake(sf::RenderWindow* window) : sf::Drawable()
 {
 	//hackity hack
-	m_snakeBody.setPrimitiveType(sf::TrianglesStrip);
-    m_snakeBody.append({{0, 0}});
-    m_snakeBody.append({{0, 20}});
-    m_snakeBody.append({{20, 0}});
-    m_snakeBody.append({{20, 20}});
-	setPosition(400, 400);
+	m_snakeBody.setPrimitiveType(sf::LinesStrip);
+
+	///give it a starting position 
+	positionHistory.push_front({ 400, 400 });
+	positionHistorySize = 50;
 
 	m_speed = 150.f;
 	m_direction = 0.f;
@@ -48,11 +47,6 @@ void Snake::handleEvent(sf::Event event)
 
 void Snake::update(float dt)
 {
-	//update the position
-	auto xOffset = m_speed * dt * std::cos(m_direction);
-	auto yOffset = m_speed * dt * std::sin(m_direction);
-	auto pos = getPosition() + sf::Vector2f(xOffset,yOffset);
-
 	//update rotation (if applicable)
 	if (turningLeft)
 	{
@@ -62,6 +56,11 @@ void Snake::update(float dt)
 	{
 		m_direction += m_turnSpeed * dt;
 	}
+
+	//update the position
+	auto xOffset = m_speed * dt * std::cos(m_direction);
+	auto yOffset = m_speed * dt * std::sin(m_direction);
+	auto pos = positionHistory[0] + sf::Vector2f(xOffset,yOffset);
 
 	//check it's in the window
 	auto windowRect = sf::FloatRect(0, 0, m_window->getSize().x, m_window->getSize().y);
@@ -86,7 +85,23 @@ void Snake::update(float dt)
 			pos.y -= windowRect.height;
 		}
 	}
-	setPosition(pos);
+
+
+	//update the history
+	positionHistory.push_front(pos);
+	while (positionHistory.size() >= positionHistorySize)
+		positionHistory.pop_back();
+
+	//update the vertexarray
+	auto count(0);
+	for (auto& pos : positionHistory)
+	{
+		if (count >= m_snakeBody.getVertexCount())
+			m_snakeBody.append(pos);
+		else
+			m_snakeBody[count] = pos;
+		count++;
+	}
 }
 
 void Snake::draw(sf::RenderTarget& target, sf::RenderStates states) const
