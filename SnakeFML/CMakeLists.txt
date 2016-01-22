@@ -10,11 +10,13 @@ find_package(SFML 2 REQUIRED graphics window system)
 include_directories(${SFML_INCLUDE_DIR})
 
 set(HDRS
-    SnakeFML/Snake.h
+    SnakeFML/Snake.hpp
+    SnakeFML/Mouse.hpp
 )
 
 set(SRCS
     SnakeFML/Snake.cpp
+    SnakeFML/Mouse.cpp
     SnakeFML/Main.cpp
 )
 
