@@ -98,8 +98,6 @@ void Snake::update(float dt)
 
     static const float thickness = 5.f;
 
-
-    int transparent = 0;
     for (std::size_t i=0; i<positionHistory.size()-1; ++i)
     {
         sf::Vector2f& point1 = positionHistory[i];
@@ -112,16 +110,8 @@ void Snake::update(float dt)
         sf::Vector2f offset = (thickness/2.f)*unitPerpendicular;
 
         sf::Color color = sf::Color::White;
-        if(!windowRect.contains(point1) || !windowRect.contains(point2))
-        {
-            transparent = 100;
-        }
-
-        if(transparent)
-        {
-            transparent--;
+        if(!windowRect.contains(point1-direction) || !windowRect.contains(point2+direction))
             color = sf::Color::Transparent;
-        }
 
         m_snakeBody.append({point1 + offset, color});
 //        m_snakeBody.append({point2 + offset, color});
