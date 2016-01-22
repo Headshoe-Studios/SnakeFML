@@ -28,6 +28,10 @@ int main()
 			}
 			else if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
 			{
+				if (event.key.code == sf::Keyboard::Escape)
+				{
+					window.close();
+				}
 				//snake handles it's input
 				snake.handleEvent(event);
 			}
@@ -42,7 +46,7 @@ int main()
 			mouse.respawn();
 		}
 
-		window.clear(sf::Color::Green); // green because... grass?
+        window.clear(sf::Color(0,128,0)); // green because... grass?
 		window.draw(snake);
 		window.draw(mouse);
 		window.display();

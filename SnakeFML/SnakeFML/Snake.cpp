@@ -1,6 +1,12 @@
 #include "Snake.hpp"
 
-Snake::Snake(sf::RenderWindow* window) : sf::Drawable()
+Snake::Snake(sf::RenderWindow* window) : sf::Drawable(),
+    m_speed(150.f),
+    m_direction(0.f),
+    m_turnSpeed(3.f),
+    m_window(window),
+    turningLeft(false),
+    turningRight(false)
 {
 	//hackity hack
 	m_snakeBody.setPrimitiveType(sf::LinesStrip);
@@ -8,41 +14,35 @@ Snake::Snake(sf::RenderWindow* window) : sf::Drawable()
 	///give it a starting position 
 	positionHistory.push_front({ 400, 400 });
 	positionHistorySize = 50;
-
-	m_speed = 150.f;
-	m_direction = 0.f;
-	m_turnSpeed = 3.f;
-	m_window = window;
-	turningLeft = false;
-	turningRight = false;
+ 
 }
 
 void Snake::handleEvent(sf::Event event)
 {
-	if (event.type == sf::Event::KeyPressed)
-	{
-		switch (event.key.code)
-		{
-		case sf::Keyboard::Left:
-			turningLeft = true;
-			break;
-		case sf::Keyboard::Right:
-			turningRight = true;
-			break;
-		}
-	}
-	else if (event.type == sf::Event::KeyReleased)
-	{
-		switch (event.key.code)
-		{
-		case sf::Keyboard::Left:
-			turningLeft = false;
-			break;
-		case sf::Keyboard::Right:
-			turningRight = false;
-			break;
-		}
-	}
+    if (event.type == sf::Event::KeyPressed)
+    {
+        switch (event.key.code)
+        {
+        case sf::Keyboard::Left:
+            turningLeft = true;
+            break;
+        case sf::Keyboard::Right:
+            turningRight = true;
+            break;
+        }
+    }
+    else if (event.type == sf::Event::KeyReleased)
+    {
+        switch (event.key.code)
+        {
+        case sf::Keyboard::Left:
+            turningLeft = false;
+            break;
+        case sf::Keyboard::Right:
+            turningRight = false;
+            break;
+        }
+    }
 }
 
 void Snake::update(float dt)
@@ -102,6 +102,7 @@ void Snake::update(float dt)
 			m_snakeBody[count] = pos;
 		count++;
 	}
+
 }
 
 sf::Vector2f Snake::getHeadPosition()
@@ -123,5 +124,5 @@ bool Snake::checkForCollision(sf::Vector2f objPos, int objSize)
 void Snake::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     states.transform *= getTransform();
-	target.draw(m_snakeBody, states);
+    target.draw(m_snakeBody, states);
 }
