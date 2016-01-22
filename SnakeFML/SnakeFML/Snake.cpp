@@ -9,12 +9,12 @@ Snake::Snake(sf::RenderWindow* window) : sf::Drawable(),
     turningRight(false)
 {
 	//hackity hack
-    m_snakeBody.setPrimitiveType(sf::Quads);
+    m_snakeBody.setPrimitiveType(sf::TrianglesStrip);
 
-	///give it a starting position 
+	///give it a starting position
 	positionHistory.push_front({ 400, 400 });
 	positionHistorySize = 50;
- 
+
 }
 
 void Snake::handleEvent(sf::Event event)
@@ -96,7 +96,7 @@ void Snake::update(float dt)
 
     m_snakeBody.clear();
 
-    static const float thickness = 5.f;
+    static const float thickness = 100.f;
 
     for (std::size_t i=0; i<positionHistory.size()-1; ++i)
     {
@@ -110,8 +110,8 @@ void Snake::update(float dt)
         sf::Vector2f offset = (thickness/2.f)*unitPerpendicular;
 
         m_snakeBody.append(point1 + offset);
-        m_snakeBody.append(point2 + offset);
-        m_snakeBody.append(point2 - offset);
+//        m_snakeBody.append(point2 + offset);
+//        m_snakeBody.append(point2 - offset);
         m_snakeBody.append(point1 - offset);
     }
 }
