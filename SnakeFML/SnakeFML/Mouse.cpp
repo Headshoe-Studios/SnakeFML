@@ -19,6 +19,15 @@ Mouse::Mouse(sf::RenderWindow& window)
 	respawn();
 }
 
+int Mouse::getBodySize()
+{
+	return mouseBody.getRadius();
+}
+
+sf::Vector2f Mouse::getBodyPosition()
+{
+	return sf::Vector2f(mouseBody.getPosition().x+getBodySize(), mouseBody.getPosition().y+getBodySize());
+}
 
 void	Mouse::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
