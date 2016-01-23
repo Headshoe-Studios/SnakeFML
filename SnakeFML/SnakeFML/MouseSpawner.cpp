@@ -77,15 +77,19 @@ void MouseSpawner::spawn()
 
 void MouseSpawner::checkCollisions(Snake& snake)
 {
-    for (auto& mouse : spawnedMice) {
+	for (auto mouse = spawnedMice.begin(); mouse != spawnedMice.end(); mouse++) {
 
-        if(snake.checkForCollision(mouse.second->getBodyPosition(), mouse.second->getBodySize()))
+        if(snake.checkForCollision(mouse->second->getBodyPosition(), mouse->second->getBodySize()))
         {
             std::lock_guard<std::mutex> lock(mutex);
 			snake.addToSize();
-            spawnedMice.erase(mouse.second->id());
-        }
+            mouse = spawnedMice.erase(mouse);
+			if (mouse == spawnedMice.end()) {
+				break;
+			}
+		}
     }
+
 }
 
 void MouseSpawner::draw() const
