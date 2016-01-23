@@ -82,7 +82,7 @@ void MouseSpawner::checkCollisions(Snake& snake)
         if(snake.checkForCollision(mouse.second->getBodyPosition(), mouse.second->getBodySize()))
         {
             std::lock_guard<std::mutex> lock(mutex);
-
+			snake.addToSize();
             spawnedMice.erase(mouse.second->id());
         }
     }
