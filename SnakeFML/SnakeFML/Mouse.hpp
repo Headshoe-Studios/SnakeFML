@@ -1,20 +1,22 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <cstdint>
 #include <random>
 
 class Mouse : public sf::Drawable
 {
 public:
-	Mouse(sf::RenderWindow& window);
+	Mouse(std::uint8_t id);
 	~Mouse() = default;
-	
+
+	void setBodyPosition(float x, float y);
+
 	//getters for position and size
-	int getBodySize();
-	sf::Vector2f getBodyPosition();
-	
-	///Call this when you want him to respawn
-	void respawn();
+	int getBodySize() const;
+	sf::Vector2f getBodyPosition() const;
+
+	std::uint8_t id() const;
 
 private:
 	virtual void						draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -24,5 +26,6 @@ private:
 	std::mt19937						randomEngine;
 	std::uniform_int_distribution<int>	xDistribution;
 	std::uniform_int_distribution<int>	yDistribution;
+	std::uint8_t                        spawnId;
 };
 
