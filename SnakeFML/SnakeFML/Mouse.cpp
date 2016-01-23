@@ -2,43 +2,34 @@
 #include <chrono>
 #include <functional>
 
-Mouse::Mouse(sf::RenderWindow& window)
+Mouse::Mouse(std::uint8_t id) :
+spawnId(id)
 {
-	//seed the random engine
-	auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-	randomEngine.seed(seed);
-
-	//we want randoms from 0 - screen size
-	auto size = window.getSize();
-	xDistribution = std::uniform_int_distribution<int>(0,window.getSize().x);
-	yDistribution = std::uniform_int_distribution<int>(0, window.getSize().y);
-
 	//hackity hack
 	mouseBody.setRadius(10);
-
-	respawn();
 }
 
-int Mouse::getBodySize()
+void Mouse::setBodyPosition(float x, float y)
+{
+    mouseBody.setPosition(x, y);
+}
+
+int Mouse::getBodySize() const
 {
 	return mouseBody.getRadius();
 }
 
-sf::Vector2f Mouse::getBodyPosition()
+sf::Vector2f Mouse::getBodyPosition() const
 {
-	return sf::Vector2f(mouseBody.getPosition().x+getBodySize(), mouseBody.getPosition().y+getBodySize());
+	return sf::Vector2f(mouseBody.getPosition().x + getBodySize(), mouseBody.getPosition().y + getBodySize());
 }
 
-void	Mouse::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Mouse::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(mouseBody);
 }
 
-void	Mouse::respawn()
+std::uint8_t Mouse::id() const
 {
-	//get a random position
-	auto xPosition = xDistribution(randomEngine);
-	auto yPosition = yDistribution(randomEngine);
-
-	mouseBody.setPosition(xPosition, yPosition);
+    return spawnId;
 }
