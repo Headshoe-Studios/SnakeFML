@@ -10,8 +10,8 @@ Mouse::Mouse(sf::RenderWindow& window)
 
 	//we want randoms from 0 - screen size
 	auto size = window.getSize();
-	xDistribution = std::uniform_int_distribution<int>(0,window.getSize().x);
-	yDistribution = std::uniform_int_distribution<int>(0, window.getSize().y);
+    xDistribution = std::uniform_int_distribution<int>(0, size.x);
+    yDistribution = std::uniform_int_distribution<int>(0, size.y);
 
 	//hackity hack
 	mouseBody.setRadius(10);
