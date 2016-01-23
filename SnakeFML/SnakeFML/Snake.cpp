@@ -100,14 +100,14 @@ void Snake::update(float dt)
 
     for (std::size_t i=0; i<positionHistory.size()-1; ++i)
     {
-        sf::Vector2f& point1 = positionHistory[i];
-        sf::Vector2f& point2 = positionHistory[i+1];
+        auto& point1 = positionHistory[i];
+        auto& point2 = positionHistory[i+1];
 
-        sf::Vector2f direction = point2 - point1;
-        sf::Vector2f unitDirection = direction/std::sqrt(direction.x*direction.x+direction.y*direction.y);
+        auto direction = point2 - point1;
+        auto unitDirection = direction/std::sqrt(direction.x*direction.x+direction.y*direction.y);
         sf::Vector2f unitPerpendicular(-unitDirection.y,unitDirection.x);
 
-        sf::Vector2f offset = (thickness/2.f)*unitPerpendicular;
+        auto offset = (thickness/2.f)*unitPerpendicular;
 
         sf::Color color = sf::Color::White;
         if(!windowRect.contains(point1-direction) || !windowRect.contains(point2+direction))
