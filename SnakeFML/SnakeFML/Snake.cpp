@@ -102,7 +102,10 @@ bool Snake::checkForCollision(sf::Vector2f objPos, int objSize)
 	float a = objPos.x - getHeadPosition().x;
 	float b = objPos.y - getHeadPosition().y;
 	float c = sqrt(pow(a, 2) + pow(b, 2));
-	if(c <= objSize){
+	if(c <= objSize)
+	{
+		//increment history size for now - should ideally be more accurate
+		positionHistorySize++;
 		return true;
 	}
 	return false;
