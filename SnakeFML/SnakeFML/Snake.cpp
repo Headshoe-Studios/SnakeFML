@@ -130,7 +130,8 @@ bool Snake::checkForCollision(sf::Vector2f objPos, int objSize)
 	float a = objPos.x - getHeadPosition().x;
 	float b = objPos.y - getHeadPosition().y;
 	float c = sqrt(pow(a, 2) + pow(b, 2));
-	if(c <= objSize){
+	if(c <= objSize)
+	{
 		return true;
 	}
 	return false;
