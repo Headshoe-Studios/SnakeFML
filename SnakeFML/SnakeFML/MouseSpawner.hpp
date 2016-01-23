@@ -8,6 +8,8 @@
 #include <random>
 #include <thread>
 #include <SFML/Window.hpp>
+#include <mingw.thread.h> //both these are a patch to fix threads with mingw!! you can remove these when you merge plz
+#include <mingw.mutex.h> //both these are a patch to fix threads with mingw!! you can remove these when you merge plz
 #include "Mouse.hpp"
 #include "Snake.hpp"
 
