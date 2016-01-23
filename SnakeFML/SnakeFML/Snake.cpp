@@ -4,9 +4,7 @@ Snake::Snake(sf::RenderWindow* window) : sf::Drawable(),
     m_speed(150.f),
     m_direction(0.f),
     m_turnSpeed(3.f),
-    m_window(window),
-    turningLeft(false),
-    turningRight(false)
+    m_window(window)
 {
 	//hackity hack
     m_snakeBody.setPrimitiveType(sf::TrianglesStrip);
@@ -17,42 +15,14 @@ Snake::Snake(sf::RenderWindow* window) : sf::Drawable(),
 
 }
 
-void Snake::handleEvent(sf::Event event)
-{
-    if (event.type == sf::Event::KeyPressed)
-    {
-        switch (event.key.code)
-        {
-        case sf::Keyboard::Left:
-            turningLeft = true;
-            break;
-        case sf::Keyboard::Right:
-            turningRight = true;
-            break;
-        }
-    }
-    else if (event.type == sf::Event::KeyReleased)
-    {
-        switch (event.key.code)
-        {
-        case sf::Keyboard::Left:
-            turningLeft = false;
-            break;
-        case sf::Keyboard::Right:
-            turningRight = false;
-            break;
-        }
-    }
-}
-
 void Snake::update(float dt)
 {
 	//update rotation (if applicable)
-	if (turningLeft)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		m_direction -= m_turnSpeed * dt;
 	}
-	if (turningRight)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		m_direction += m_turnSpeed * dt;
 	}

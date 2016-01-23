@@ -26,11 +26,6 @@ int main()
 			{
 				window.close();
 			}
-			else if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
-			{
-				//snake handles it's input
-				snake.handleEvent(event);
-			}
 		}
 
 		//update snake

@@ -16,10 +16,7 @@ public:
 	sf::Vector2f getHeadPosition();
 	
 	//check for collisions with mice
-	bool checkForCollision(sf::Vector2f objPos, int objSize);
-	
-	//handle events
-	void handleEvent(sf::Event event);
+	bool checkForCollision(sf::Vector2f objPos, int objSize);	
 
 private:
 
@@ -30,9 +27,6 @@ private:
 	float				m_direction;	//the current direction of the snake (in degrees)
 	float				m_speed;		//current speed (in pixels/second)
 	float				m_turnSpeed;	//the speed it can turn at (in degrees/second)
-
-	bool				turningLeft;
-	bool				turningRight;
 
 	sf::RenderWindow*	m_window;
 
