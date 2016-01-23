@@ -31,6 +31,6 @@ private:
 	sf::RenderWindow*	m_window;
 
 	std::deque<sf::Vector2f>	positionHistory;
-	int							positionHistorySize;
+    std::size_t							positionHistorySize;
 };
 

@@ -1,8 +1,8 @@
 #include "Snake.hpp"
 
-Snake::Snake(sf::RenderWindow* window) : sf::Drawable(),
-    m_speed(150.f),
+Snake::Snake(sf::RenderWindow* window) : sf::Drawable(),    
     m_direction(0.f),
+    m_speed(150.f),
     m_turnSpeed(3.f),
     m_window(window)
 {
