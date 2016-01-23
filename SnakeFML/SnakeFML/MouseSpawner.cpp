@@ -21,8 +21,9 @@ void spawnTimer(MouseSpawner& spawner)
         if (spawner.size() < maximumSpawnedMice())
         {
             spawner.spawn();
-            std::this_thread::sleep_for(spawnInterval());
         }
+
+        std::this_thread::sleep_for(spawnInterval());
     }
 }
 
@@ -41,8 +42,8 @@ nextId(0)
 
 	// Currently uses window size
 	auto size = window->getSize();
-	xDistribution = std::uniform_int_distribution<int>(0, window->getSize().x);
-	yDistribution = std::uniform_int_distribution<int>(0, window->getSize().y);
+	xDistribution = std::uniform_int_distribution<int>(0, size.x);
+	yDistribution = std::uniform_int_distribution<int>(0, size.y);
 
 	timedSpawner = std::make_unique<std::thread>(spawnTimer, std::ref(*this));
 }
@@ -77,7 +78,7 @@ void MouseSpawner::spawn()
 
 void MouseSpawner::checkCollisions(Snake& snake)
 {
-	for (auto mouse = spawnedMice.begin(); mouse != spawnedMice.end(); mouse++) {
+	for (auto mouse = spawnedMice.begin(); mouse != spawnedMice.end(); ++mouse) {
 
         if(snake.checkForCollision(mouse->second->getBodyPosition(), mouse->second->getBodySize()))
         {
@@ -89,7 +90,6 @@ void MouseSpawner::checkCollisions(Snake& snake)
 			}
 		}
     }
-
 }
 
 void MouseSpawner::draw() const
