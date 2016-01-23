@@ -16,10 +16,7 @@ public:
 	sf::Vector2f getHeadPosition();
 	
 	//check for collisions with mice
-	bool checkForCollision(sf::Vector2f objPos, int objSize);
-	
-	//handle events
-	void handleEvent(sf::Event event);
+	bool checkForCollision(sf::Vector2f objPos, int objSize);	
 
 private:
 
