@@ -4,9 +4,7 @@ Snake::Snake(sf::RenderWindow* window) : sf::Drawable(),
     m_speed(150.f),
     m_direction(0.f),
     m_turnSpeed(3.f),
-    m_window(window),
-    turningLeft(false),
-    turningRight(false)
+    m_window(window)
 {
 	//hackity hack
     m_snakeBody.setPrimitiveType(sf::TrianglesStrip);

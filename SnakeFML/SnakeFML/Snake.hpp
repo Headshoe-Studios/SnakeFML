@@ -28,9 +28,6 @@ private:
 	float				m_speed;		//current speed (in pixels/second)
 	float				m_turnSpeed;	//the speed it can turn at (in degrees/second)
 
-	bool				turningLeft;
-	bool				turningRight;
-
 	sf::RenderWindow*	m_window;
 
 	std::deque<sf::Vector2f>	positionHistory;
