@@ -4,8 +4,10 @@
 #include <map>
 #include <memory>
 #include <random>
+
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+
 #include "Mouse.hpp"
 #include "Snake.hpp"
 
@@ -14,14 +16,11 @@ class MouseSpawner final
 public:
 
     MouseSpawner(sf::RenderWindow* window);
-    ~MouseSpawner() = default;
 
     void spawn();
     void checkCollisions(Snake& snake);
 
     void draw() const;
-
-    std::size_t size();
 
 private:
 

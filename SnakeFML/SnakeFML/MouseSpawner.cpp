@@ -35,16 +35,17 @@ active(true)
 
 void MouseSpawner::spawn()
 {
-	auto xPosition = xDistribution(randomEngine);
-	auto yPosition = yDistribution(randomEngine);
 
 	if (spawnTimer.getElapsedTime().asSeconds() >= spawnInterval())
 	{
 	    spawnTimer.restart();
 
-	    if (size() < maximumSpawnedMice())
+	    if (active && spawnedMice.size() < maximumSpawnedMice())
 	    {
             std::unique_ptr<Mouse> mouse = std::make_unique<Mouse>(nextId);
+
+            auto xPosition = xDistribution(randomEngine);
+            auto yPosition = yDistribution(randomEngine);
 
             mouse->setBodyPosition(xPosition, yPosition);
 
@@ -76,9 +77,4 @@ void MouseSpawner::draw() const
     {
         window->draw(*mouse.second);
     }
-}
-
-std::size_t MouseSpawner::size()
-{
-    return spawnedMice.size();
 }
