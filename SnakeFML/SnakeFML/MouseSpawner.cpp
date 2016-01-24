@@ -9,22 +9,9 @@ constexpr std::uint8_t maximumSpawnedMice()
     return 10;
 }
 
-constexpr std::chrono::seconds spawnInterval()
+constexpr float spawnInterval()
 {
-    return std::chrono::seconds(1);
-}
-
-void spawnTimer(MouseSpawner& spawner)
-{
-    while (spawner.active())
-    {
-        if (spawner.size() < maximumSpawnedMice())
-        {
-            spawner.spawn();
-        }
-
-        std::this_thread::sleep_for(spawnInterval());
-    }
+    return 1.f;
 }
 
 MouseSpawner::MouseSpawner(sf::RenderWindow* window) :
@@ -32,10 +19,10 @@ randomEngine(),
 xDistribution(),
 yDistribution(),
 spawnedMice(),
-timedSpawner(),
+spawnTimer(),
 window(window),
-threadActive(true),
-nextId(0)
+nextId(0),
+active(true)
 {
 	auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
 	randomEngine.seed(seed);
@@ -44,18 +31,6 @@ nextId(0)
 	auto size = window->getSize();
 	xDistribution = std::uniform_int_distribution<int>(0, size.x);
 	yDistribution = std::uniform_int_distribution<int>(0, size.y);
-
-	timedSpawner = std::make_unique<std::thread>(spawnTimer, std::ref(*this));
-}
-
-MouseSpawner::~MouseSpawner()
-{
-    threadActive = false;
-
-    if (timedSpawner != nullptr && timedSpawner->joinable())
-    {
-        timedSpawner->join();
-    }
 }
 
 void MouseSpawner::spawn()
@@ -63,29 +38,32 @@ void MouseSpawner::spawn()
 	auto xPosition = xDistribution(randomEngine);
 	auto yPosition = yDistribution(randomEngine);
 
+	if (spawnTimer.getElapsedTime().asSeconds() >= spawnInterval())
 	{
-	    std::lock_guard<std::mutex> lock(mutex);
+	    spawnTimer.restart();
 
-	    std::unique_ptr<Mouse> mouse = std::make_unique<Mouse>(nextId);
+	    if (size() < maximumSpawnedMice())
+	    {
+            std::unique_ptr<Mouse> mouse = std::make_unique<Mouse>(nextId);
 
-	    mouse->setBodyPosition(xPosition, yPosition);
+            mouse->setBodyPosition(xPosition, yPosition);
 
-	    spawnedMice.emplace(nextId, std::move(mouse));
+            spawnedMice.emplace(nextId, std::move(mouse));
 
-	    ++nextId;
+            ++nextId;
+	    }
 	}
 }
 
 void MouseSpawner::checkCollisions(Snake& snake)
 {
-	for (auto mouse = spawnedMice.begin(); mouse != spawnedMice.end(); ++mouse) {
-
+	for (auto mouse = spawnedMice.begin(); mouse != spawnedMice.end(); ++mouse)
+	{
         if(snake.checkForCollision(mouse->second->getBodyPosition(), mouse->second->getBodySize()))
         {
-            std::lock_guard<std::mutex> lock(mutex);
-
             mouse = spawnedMice.erase(mouse);
-			if (mouse == spawnedMice.end()) {
+			if (mouse == spawnedMice.end())
+			{
 				break;
 			}
 		}
@@ -94,7 +72,8 @@ void MouseSpawner::checkCollisions(Snake& snake)
 
 void MouseSpawner::draw() const
 {
-    for (auto& mouse : spawnedMice) {
+    for (auto& mouse : spawnedMice)
+    {
         window->draw(*mouse.second);
     }
 }
@@ -102,9 +81,4 @@ void MouseSpawner::draw() const
 std::size_t MouseSpawner::size()
 {
     return spawnedMice.size();
-}
-
-bool MouseSpawner::active()
-{
-    return threadActive;
 }
