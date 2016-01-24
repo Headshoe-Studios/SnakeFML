@@ -110,7 +110,7 @@ bool Snake::checkForCollision(sf::Vector2f objPos, int objSize)
 void Snake::addToSize()
 {
 	//increment history size for now - should ideally be more accurate
-		positionHistorySize++;
+		positionHistorySize += 25;
 }
 
 void Snake::draw(sf::RenderTarget& target, sf::RenderStates states) const
