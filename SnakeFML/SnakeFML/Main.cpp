@@ -74,7 +74,8 @@ int main()
 		case E_GAME_STATE::INGAME:
 			//update snake
 			snake.update(dt);
-
+			
+			//check for collisions with mice
 			spawner.checkCollisions(snake);
 			
 			window.draw(snake);

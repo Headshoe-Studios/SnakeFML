@@ -40,4 +40,6 @@ private:
     std::atomic_bool                               threadActive;
     std::uint8_t                                   nextId;
     std::mutex                                     mutex;
+	
+	const int mousePointValue = 10;
 };

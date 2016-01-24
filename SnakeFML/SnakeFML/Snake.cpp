@@ -11,7 +11,7 @@ Snake::Snake(sf::RenderWindow* window) : sf::Drawable(),
 
 	///give it a starting position
 	positionHistory.push_front({ 400, 400 });
-	positionHistorySize = 50;
+	positionHistorySize = snakeOrigSize;
 
 }
 
@@ -88,11 +88,25 @@ void Snake::update(float dt)
 //        m_snakeBody.append({point2 - offset, color});
         m_snakeBody.append({point1 - offset, color});
     }
+	
+	checkForTail();
 }
 
 sf::Vector2f Snake::getHeadPosition()
 {
 	return positionHistory[0];
+}
+
+void Snake::checkForTail()
+{
+	for(unsigned int i = 124; i < positionHistory.size(); ++i)
+	{
+		if(checkForCollision(positionHistory[i], snakeSegmentSize))
+		{
+			printf("touching tail at %d\n\n", i);
+			positionHistorySize = snakeOrigSize;
+		}
+	}
 }
 
 bool Snake::checkForCollision(sf::Vector2f objPos, int objSize)
@@ -107,10 +121,10 @@ bool Snake::checkForCollision(sf::Vector2f objPos, int objSize)
 	return false;
 }
 
-void Snake::addToSize()
+void Snake::addToSize(int scoreToAdd)
 {
 	//increment history size for now - should ideally be more accurate
-		positionHistorySize += 25;
+		positionHistorySize += scoreToAdd;
 }
 
 void Snake::draw(sf::RenderTarget& target, sf::RenderStates states) const
