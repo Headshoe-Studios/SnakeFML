@@ -33,7 +33,7 @@ int main()
 	playButton.shape.setPosition(static_cast<sf::Vector2f>(window.getSize()) / 2.f - playButton.shape.getSize() / 2.f); // Center the button
 	
 	Button exitButton([&]() {
-		gameState = CLOSING;		
+		gameState = CLOSING;
 	});
 	exitButton.shape.setSize({ 128 * 3, 128 });
 	exitButton.shape.setPosition(playButton.shape.getPosition() + sf::Vector2f( 0, 192 )); // Magic numbers yay
@@ -63,6 +63,8 @@ int main()
 			case E_GAME_STATE::MENU:
 				playButton.processEvent(event);
 				exitButton.processEvent(event);
+			default:
+				break;
 			}
 		}
 
@@ -81,6 +83,8 @@ int main()
 		case E_GAME_STATE::MENU:
 			window.draw(playButton.shape);
 			window.draw(exitButton.shape);
+			break;
+		default:
 			break;
 		}
 		window.display();
