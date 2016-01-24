@@ -16,7 +16,8 @@ public:
 	sf::Vector2f getHeadPosition();
 	
 	//check for collisions with mice
-	bool checkForCollision(sf::Vector2f objPos, int objSize);	
+	bool checkForCollision(sf::Vector2f objPos, int objSize);
+	void addToSize();
 
 private:
 
