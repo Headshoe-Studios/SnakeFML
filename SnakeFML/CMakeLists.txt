@@ -14,6 +14,7 @@ set(HDRS
     SnakeFML/Snake.hpp
     SnakeFML/Mouse.hpp
     SnakeFML/MouseSpawner.hpp
+    SnakeFML/Button.h
 )
 
 set(SRCS
@@ -21,6 +22,7 @@ set(SRCS
     SnakeFML/Mouse.cpp
     SnakeFML/MouseSpawner.cpp
     SnakeFML/Main.cpp
+    SnakeFML/Button.cpp
 )
 
 add_executable("${PROJECT_NAME}-exec" ${HDRS} ${SRCS})
