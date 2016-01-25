@@ -58,11 +58,23 @@ int main()
 				gameState = CLOSING;
 			}
 
-			switch (gameState) {
-			case E_GAME_STATE::MENU:
+			switch (gameState) 
+			{
+			case MENU:
 				playButton.processEvent(event);
 				exitButton.processEvent(event);
 				break;
+			case INGAME:
+				if (event.type == sf::Event::KeyPressed)
+				{
+					switch (event.key.code)
+					{
+						//escape to pause
+					case sf::Keyboard::Escape:
+						gameState = MENU;
+						break;
+					}
+				}
 			default:
 				break;
 			}
