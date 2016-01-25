@@ -7,9 +7,9 @@
 #include <mutex>
 #include <random>
 #include <thread>
+#include <mingw.thread.h>
+#include <mingw.mutex.h>
 #include <SFML/Window.hpp>
-#include <mingw.thread.h> //both these are a patch to fix threads with mingw!! you can remove these when you merge plz
-#include <mingw.mutex.h> //both these are a patch to fix threads with mingw!! you can remove these when you merge plz
 #include "Mouse.hpp"
 #include "Snake.hpp"
 
@@ -40,4 +40,6 @@ private:
     std::atomic_bool                               threadActive;
     std::uint8_t                                   nextId;
     std::mutex                                     mutex;
+	
+	const int mousePointValue = 10;
 };

@@ -13,11 +13,14 @@ public:
 	void update(float dt);
 	
 	//get head position
-	sf::Vector2f getHeadPosition();
+	sf::Vector2f getHeadPosition();	
 	
 	//check for collisions with mice
 	bool checkForCollision(sf::Vector2f objPos, int objSize);
-	void addToSize();
+	void addToSize(int scoreToAdd);
+	
+	//check for tail
+	void checkForTail();
 
 private:
 
@@ -33,5 +36,8 @@ private:
 
 	std::deque<sf::Vector2f>	positionHistory;
     std::size_t							positionHistorySize;
+	
+	const int snakeOrigSize = 50;
+	const int snakeSegmentSize = 5;
 };
 
