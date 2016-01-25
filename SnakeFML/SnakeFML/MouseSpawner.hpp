@@ -7,8 +7,6 @@
 #include <mutex>
 #include <random>
 #include <thread>
-#include <mingw.thread.h>
-#include <mingw.mutex.h>
 #include <SFML/Window.hpp>
 #include "Mouse.hpp"
 #include "Snake.hpp"

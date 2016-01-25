@@ -213,3 +213,5 @@ ModelManifest.xml
 *.sln
 *.vcxproj
 *.filters
+SnakeFML/SnakeFML.VC.opendb
+*.config
