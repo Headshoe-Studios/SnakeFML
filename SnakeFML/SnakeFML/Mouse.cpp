@@ -2,31 +2,25 @@
 #include <chrono>
 #include <functional>
 
-Mouse::Mouse(std::uint8_t id) :
-spawnId(id)
+Mouse::Mouse(std::uint8_t id, const sf::Texture& texture) :
+	spawnId(id),
+	sprite(texture)
 {
-	//hackity hack
-	mouseBody.setRadius(10);
 }
 
 void Mouse::setBodyPosition(float x, float y)
 {
-    mouseBody.setPosition(x, y);
+    sprite.setPosition(x, y);
 }
 
-int Mouse::getBodySize() const
+sf::FloatRect Mouse::getBodyRect() const
 {
-	return mouseBody.getRadius();
-}
-
-sf::Vector2f Mouse::getBodyPosition() const
-{
-	return sf::Vector2f(mouseBody.getPosition().x + getBodySize(), mouseBody.getPosition().y + getBodySize());
+	return sprite.getGlobalBounds();
 }
 
 void Mouse::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(mouseBody);
+	target.draw(sprite);
 }
 
 std::uint8_t Mouse::id() const

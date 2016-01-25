@@ -1,28 +1,27 @@
 #include "Snake.hpp"
 
-Snake::Snake(sf::RenderWindow* window) : sf::Drawable(),    
-    m_direction(0.f),
-    m_speed(150.f),
-    m_turnSpeed(3.f),
-    m_window(window)
+Snake::Snake(sf::RenderWindow* window) : sf::Drawable(),
+m_direction(0.f),
+m_speed(150.f),
+m_turnSpeed(3.f),
+m_window(window),
+toneOne(sf::Color::Yellow),
+toneTwo(sf::Color::Blue)
 {
-	//hackity hack
     m_snakeBody.setPrimitiveType(sf::TrianglesStrip);
-
-	///give it a starting position
-	positionHistory.push_front({ 400, 400 });
-	positionHistorySize = snakeOrigSize;
-
+	respawn();
 }
 
 void Snake::update(float dt)
 {
 	//update rotation (if applicable)
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		m_direction -= m_turnSpeed * dt;
 	}
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
+		|| sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		m_direction += m_turnSpeed * dt;
 	}
@@ -37,23 +36,9 @@ void Snake::update(float dt)
 
 	if (!windowRect.contains(pos))
 	{
-		//check where we've gone off and adjust
-		while (pos.x < 0)
-		{
-			pos.x += windowRect.width;
-		}
-		while (pos.y < 0)
-		{
-			pos.y += windowRect.height;
-		}
-		while (pos.x > windowRect.width)
-		{
-			pos.x -= windowRect.width;
-		}
-		while (pos.y > windowRect.height)
-		{
-			pos.y -= windowRect.height;
-		}
+		//dead
+		respawn();
+		return;
 	}
 
 
@@ -66,65 +51,73 @@ void Snake::update(float dt)
 
     m_snakeBody.clear();
 
-    static const float thickness = 5.f;
+    static const float thickness = 15.f;
 
-    for (std::size_t i=0; i<positionHistory.size()-1; ++i)
-    {
-        auto& point1 = positionHistory[i];
-        auto& point2 = positionHistory[i+1];
-
-        auto direction = point2 - point1;
-        auto unitDirection = direction/std::sqrt(direction.x*direction.x+direction.y*direction.y);
-        sf::Vector2f unitPerpendicular(-unitDirection.y,unitDirection.x);
-
-        auto offset = (thickness/2.f)*unitPerpendicular;
-
-        sf::Color color = sf::Color::White;
-        if(!windowRect.contains(point1-direction) || !windowRect.contains(point2+direction))
-            color = sf::Color::Transparent;
-
-        m_snakeBody.append({point1 + offset, color});
-//        m_snakeBody.append({point2 + offset, color});
-//        m_snakeBody.append({point2 - offset, color});
-        m_snakeBody.append({point1 - offset, color});
-    }
-	
-	checkForTail();
-}
-
-sf::Vector2f Snake::getHeadPosition()
-{
-	return positionHistory[0];
-}
-
-void Snake::checkForTail()
-{
-	for(unsigned int i = 124; i < positionHistory.size(); ++i)
+	for (std::size_t i = 0; i < positionHistory.size() - 1; ++i)
 	{
-		if(checkForCollision(positionHistory[i], snakeSegmentSize))
+		auto& point1 = positionHistory[i];
+		auto& point2 = positionHistory[i + 1];
+
+		auto direction = point2 - point1;
+		auto unitDirection = direction / std::sqrt(direction.x*direction.x + direction.y*direction.y);
+		sf::Vector2f unitPerpendicular(-unitDirection.y, unitDirection.x);
+
+		auto offset = (thickness / 2.f)*unitPerpendicular;
+
+		//just give it a funky colour for now...
+		m_snakeBody.append({ point1 + offset, (i % 3) ? toneOne : toneTwo });
+		m_snakeBody.append({ point1 - offset, (i % 4) ? toneOne : toneTwo });
+
+		//check we don't go off the end of the array
+		if (i > 2)
 		{
-			printf("touching tail at %d\n\n", i);
-			positionHistorySize = snakeOrigSize;
+			auto p1(m_snakeBody[m_snakeBody.getVertexCount()-1].position);
+			auto p2(m_snakeBody[m_snakeBody.getVertexCount() - 2].position);
+			auto p3(m_snakeBody[m_snakeBody.getVertexCount() - 3].position);
+			//barycentric co-ordinate magic (possibly a bit of copypasta
+			auto barycentric = [&](sf::Vector2f snakeHead)
+			{
+				float alpha = ((p2.y - p3.y)*(snakeHead.x - p3.x) + (p3.x - p2.x)*(snakeHead.y - p3.y)) /
+					((p2.y - p3.y)*(p1.x - p3.x) + (p3.x - p2.x)*(p1.y - p3.y));
+				float beta = ((p3.y - p1.y)*(snakeHead.x - p3.x) + (p1.x - p3.x)*(snakeHead.y - p3.y)) /
+					((p2.y - p3.y)*(p1.x - p3.x) + (p3.x - p2.x)*(p1.y - p3.y));
+				float gamma = 1.0f - alpha - beta;
+
+				return (alpha > 0 && beta > 0 && gamma > 0);
+			};
+			//check front two corners
+			if (barycentric(positionHistory[0]) || barycentric(positionHistory[1]))
+			{
+				respawn();
+			}
 		}
-	}
+    }
 }
 
-bool Snake::checkForCollision(sf::Vector2f objPos, int objSize)
-{ //using the 2 objects positions determine collison
-	float a = objPos.x - getHeadPosition().x;
-	float b = objPos.y - getHeadPosition().y;
-	float c = sqrt(pow(a, 2) + pow(b, 2));
-	if(c <= objSize)
+
+bool Snake::checkForCollision(sf::FloatRect rect)
+{ 
+	//check the rect doesn't contain any of our points
+	for (size_t i = 0; i < m_snakeBody.getVertexCount(); i++)
 	{
-		return true;
+		if (rect.contains(m_snakeBody[i].position))
+			return true;
 	}
 	return false;
+}
+
+void	Snake::respawn()
+{
+	positionHistorySize = snakeOrigSize;
+	positionHistory.clear();
+	sf::Vector2f windowSize(m_window->getSize());
+	positionHistory.push_front({ windowSize.x / 2,windowSize.y / 2 });
 }
 
 void Snake::addToSize(int scoreToAdd)
 {
 	//increment history size for now - should ideally be more accurate
-		positionHistorySize += scoreToAdd;
+	positionHistorySize += scoreToAdd;
 }
 
 void Snake::draw(sf::RenderTarget& target, sf::RenderStates states) const

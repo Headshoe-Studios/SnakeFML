@@ -15,10 +15,10 @@ class MouseSpawner final
 {
 public:
 
-    MouseSpawner(sf::RenderWindow* window);
+    MouseSpawner(sf::RenderWindow* window, std::string mouseTexture, Snake& snake);
 
     void spawn();
-    void checkCollisions(Snake& snake);
+    void checkCollisions();
 
     void draw() const;
 
@@ -31,7 +31,10 @@ private:
     sf::Clock                                      spawnTimer;
     sf::RenderWindow*                              window;
     std::uint8_t                                   nextId;
-	
+
+	Snake*										   m_snake;	
+	sf::Texture									   m_mouseTexture;
+
 	const int mousePointValue = 10;
     bool                                           active;
 };

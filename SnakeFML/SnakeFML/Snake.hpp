@@ -11,22 +11,19 @@ public:
 
 	//update the sssssnake
 	void update(float dt);
-	
-	//get head position
-	sf::Vector2f getHeadPosition();	
+
+	//respawn when killed
+	void respawn();
 	
 	//check for collisions with mice
-	bool checkForCollision(sf::Vector2f objPos, int objSize);
+	bool checkForCollision(sf::FloatRect rect);
 	void addToSize(int scoreToAdd);
-	
-	//check for tail
-	void checkForTail();
 
 private:
 
 	virtual void		draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-	sf::VertexArray		m_snakeBody;	//will be trianglestrip or something fancier eventually
+	sf::VertexArray		m_snakeBody;
 
 	float				m_direction;	//the current direction of the snake (in degrees)
 	float				m_speed;		//current speed (in pixels/second)
@@ -38,6 +35,7 @@ private:
     std::size_t					positionHistorySize;
 	
 	const int snakeOrigSize = 50;
-	const int snakeSegmentSize = 5;
+	const sf::Color			toneOne;
+	const sf::Color			toneTwo;
 };
 

@@ -10,7 +10,6 @@ int main()
 	enum E_GAME_STATE {
 		MENU = 0,
 		INGAME = 1,
-
 		CLOSING = 42, // I find this better than forcing a shutdown with window.close() as it prevent's the current execution of the main loop to do strange things, because of the window being closed
 	} gameState = MENU; // Start the game out in the menu
 
@@ -46,7 +45,7 @@ int main()
 	Snake snake(&window);
 
 	//mouse spawner
-	MouseSpawner spawner(&window);
+	MouseSpawner spawner(&window,"Mouse.png", snake);
 
 	while (gameState != CLOSING)
 	{
@@ -77,7 +76,7 @@ int main()
 			snake.update(dt);
 			
 			//check for collisions with mice
-			spawner.checkCollisions(snake);
+			spawner.checkCollisions();
 			spawner.spawn();
 
 			window.draw(snake);
@@ -91,6 +90,7 @@ int main()
 			break;
 		}
 		window.display();
+		sf::sleep(sf::seconds(0));
 	}
 	window.close();
 
