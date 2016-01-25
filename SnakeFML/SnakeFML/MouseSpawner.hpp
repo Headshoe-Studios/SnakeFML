@@ -1,31 +1,26 @@
 #pragma once
 
-#include <atomic>
 #include <cstdint>
 #include <map>
 #include <memory>
-#include <mutex>
 #include <random>
-#include <thread>
+
 #include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+
 #include "Mouse.hpp"
 #include "Snake.hpp"
 
-class MouseSpawner
+class MouseSpawner final
 {
 public:
 
     MouseSpawner(sf::RenderWindow* window);
-    ~MouseSpawner();
 
     void spawn();
     void checkCollisions(Snake& snake);
 
     void draw() const;
-
-    std::size_t size();
-
-    bool active();
 
 private:
 
@@ -33,9 +28,8 @@ private:
     std::uniform_int_distribution<int>             xDistribution;
     std::uniform_int_distribution<int>             yDistribution;
     std::map<std::uint8_t, std::unique_ptr<Mouse>> spawnedMice;
-    std::unique_ptr<std::thread>                   timedSpawner;
+    sf::Clock                                      spawnTimer;
     sf::RenderWindow*                              window;
-    std::atomic_bool                               threadActive;
     std::uint8_t                                   nextId;
-    std::mutex                                     mutex;
+    bool                                           active;
 };
