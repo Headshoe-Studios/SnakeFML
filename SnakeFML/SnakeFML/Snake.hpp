@@ -35,7 +35,7 @@ private:
 	sf::RenderWindow*	m_window;
 
 	std::deque<sf::Vector2f>	positionHistory;
-    std::size_t							positionHistorySize;
+    std::size_t					positionHistorySize;
 	
 	const int snakeOrigSize = 50;
 	const int snakeSegmentSize = 5;

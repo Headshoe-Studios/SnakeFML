@@ -16,7 +16,7 @@ int main()
 
 
 	//hardcode size for now...
-	sf::RenderWindow window(sf::VideoMode(800, 800), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(800, 800), "SnakeFML");
 
 	float dt = 0; // Delta-Time
 	sf::Clock dtClock;
@@ -24,14 +24,14 @@ int main()
 	//limit to 60 for now. Coil whine is annoying
 	window.setFramerateLimit(60);
 
-	
+
 	// Our menu
 	Button playButton([&]() {
 		gameState = INGAME;
 	});
 	playButton.shape.setSize({ 128 * 3 , 128 });
 	playButton.shape.setPosition(static_cast<sf::Vector2f>(window.getSize()) / 2.f - playButton.shape.getSize() / 2.f); // Center the button
-	
+
 	Button exitButton([&]() {
 		gameState = CLOSING;
 	});
@@ -63,6 +63,7 @@ int main()
 			case E_GAME_STATE::MENU:
 				playButton.processEvent(event);
 				exitButton.processEvent(event);
+				break;
 			default:
 				break;
 			}
@@ -77,7 +78,8 @@ int main()
 			
 			//check for collisions with mice
 			spawner.checkCollisions(snake);
-			
+			spawner.spawn();
+
 			window.draw(snake);
 			spawner.draw();
 			break;
