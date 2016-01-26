@@ -27,3 +27,6 @@ set(SRCS
 add_executable("${PROJECT_NAME}-exec" ${HDRS} ${SRCS})
 
 target_link_libraries("${PROJECT_NAME}-exec" ${SFML_LIBRARIES})
+
+install(TARGETS "${PROJECT_NAME}-exec" DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(FILES SnakeFML/Mouse.png DESTINATION ${CMAKE_INSTALL_PREFIX})

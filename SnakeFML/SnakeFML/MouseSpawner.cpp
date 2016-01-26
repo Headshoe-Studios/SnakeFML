@@ -22,8 +22,8 @@ MouseSpawner::MouseSpawner(sf::RenderWindow* window, std::string mouseTexture, S
 	spawnTimer(),
 	window(window),
 	nextId(0),
-	active(true),
-	m_snake(&snake)
+	m_snake(&snake),
+	active(true)
 {
 	m_mouseTexture.loadFromFile(mouseTexture);
 

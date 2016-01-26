@@ -73,6 +73,8 @@ int main()
 					case sf::Keyboard::Escape:
 						gameState = MENU;
 						break;
+					default:
+						break;
 					}
 				}
 			default:
