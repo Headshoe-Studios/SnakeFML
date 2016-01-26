@@ -118,8 +118,9 @@ void	Snake::respawn()
 	positionHistory.clear();
 	sf::Vector2f windowSize(m_window->getSize());
 	positionHistory.push_front({ windowSize.x / 2,windowSize.y / 2 });
+	m_direction = 0;
 	
-	m_view.rotate(90-m_direction*180/M_PI);
+	m_view.setRotation(90-m_direction*180/M_PI);
 	m_view.setCenter(positionHistory.front());
 }
 
