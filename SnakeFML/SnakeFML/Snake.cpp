@@ -1,4 +1,6 @@
+#define _USE_MATH_DEFINES
 #include "Snake.hpp"
+#include <cmath>
 
 Snake::Snake(sf::RenderWindow* window) : sf::Drawable(),
 m_direction(0.f),
@@ -6,7 +8,8 @@ m_speed(150.f),
 m_turnSpeed(3.f),
 m_window(window),
 toneOne(sf::Color::Yellow),
-toneTwo(sf::Color::Blue)
+toneTwo(sf::Color::Blue),
+m_view(m_window->getDefaultView())
 {
     m_snakeBody.setPrimitiveType(sf::TrianglesStrip);
 	respawn();
@@ -19,11 +22,13 @@ void Snake::update(float dt)
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		m_direction -= m_turnSpeed * dt;
+		m_view.rotate(-m_turnSpeed * dt * 180/M_PI);		
 	}
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		m_direction += m_turnSpeed * dt;
+		m_view.rotate(m_turnSpeed * dt * 180/M_PI);
 	}
 
 	//update the position
@@ -31,21 +36,22 @@ void Snake::update(float dt)
 	auto yOffset = m_speed * dt * std::sin(m_direction);
 	auto pos = positionHistory[0] + sf::Vector2f(xOffset,yOffset);
 
-	//check it's in the window
-	auto windowRect = sf::FloatRect(0, 0, m_window->getSize().x, m_window->getSize().y);
+//	//check it's in the window
+//	auto windowRect = sf::FloatRect(0, 0, m_window->getSize().x, m_window->getSize().y);
 
-	if (!windowRect.contains(pos))
-	{
-		//dead
-		respawn();
-		return;
-	}
+//	if (!windowRect.contains(pos))
+//	{
+//		//dead
+//		respawn();
+//		return;
+//	}
 
 
 	//update the history
 	positionHistory.push_front(pos);
 	while (positionHistory.size() >= positionHistorySize)
 		positionHistory.pop_back();
+	m_view.setCenter(positionHistory.front());
 
     //update the vertexarray
 
@@ -112,12 +118,20 @@ void	Snake::respawn()
 	positionHistory.clear();
 	sf::Vector2f windowSize(m_window->getSize());
 	positionHistory.push_front({ windowSize.x / 2,windowSize.y / 2 });
+	
+	m_view.rotate(90-m_direction*180/M_PI);
+	m_view.setCenter(positionHistory.front());
 }
 
 void Snake::addToSize(int scoreToAdd)
 {
 	//increment history size for now - should ideally be more accurate
 	positionHistorySize += scoreToAdd;
+}
+
+sf::View Snake::getView() const
+{
+	return m_view;	
 }
 
 void Snake::draw(sf::RenderTarget& target, sf::RenderStates states) const

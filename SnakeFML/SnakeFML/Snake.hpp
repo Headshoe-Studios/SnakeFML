@@ -18,6 +18,8 @@ public:
 	//check for collisions with mice
 	bool checkForCollision(sf::FloatRect rect);
 	void addToSize(int scoreToAdd);
+	
+	sf::View getView() const;
 
 private:
 
@@ -37,5 +39,7 @@ private:
 	const int snakeOrigSize = 50;
 	const sf::Color			toneOne;
 	const sf::Color			toneTwo;
+	
+	sf::View m_view;
 };
 

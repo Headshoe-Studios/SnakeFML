@@ -88,6 +88,7 @@ int main()
 		case E_GAME_STATE::INGAME:
 			//update snake
 			snake.update(dt);
+			window.setView(snake.getView());
 			
 			//check for collisions with mice
 			spawner.checkCollisions();
