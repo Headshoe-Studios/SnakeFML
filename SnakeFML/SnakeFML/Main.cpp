@@ -98,6 +98,7 @@ int main()
 			spawner.draw();
 			break;
 		case E_GAME_STATE::MENU:
+			window.setView(window.getDefaultView());
 			window.draw(playButton.shape);
 			window.draw(exitButton.shape);
 			break;
