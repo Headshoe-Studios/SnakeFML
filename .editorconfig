@@ -1,0 +1,17 @@
+# For more information on this file, what configs are available and
+# how to use it with your choice of IDE: http://EditorConfig.org
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+
+[*.{c,cpp,cxx,h,hpp,hxx,inl}]
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+
+[Makefile]
+indent_style = tab
