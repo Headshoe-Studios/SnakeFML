@@ -2,9 +2,9 @@
 #include <chrono>
 #include <functional>
 
-Mouse::Mouse(std::uint8_t id, const sf::Texture& texture) :
-	spawnId(id),
-	sprite(texture)
+Mouse::Mouse(std::uint8_t id, const sf::Texture& texture) :	
+	sprite(texture),
+	spawnId(id)
 {
 }
 
