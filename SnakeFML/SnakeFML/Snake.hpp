@@ -3,11 +3,12 @@
 #include <SFML/Graphics.hpp>
 #include <deque>
 #include <random>
+#include "World.h"
 
 class Snake : public sf::Drawable, public sf::Transformable
 {
 public:
-	Snake(sf::RenderWindow* window, std::string headTexture);
+	Snake(sf::RenderWindow& window, World& world, std::string headTexture);
 	~Snake() = default;
 
 	//update the sssssnake
@@ -29,12 +30,13 @@ private:
 	sf::VertexArray		m_snakeBody;
 	float				tailLength;		//the fraction of the snake to make the tail
 
-	float				m_direction;	//the current direction of the snake (in degrees)
-	float				m_speed;		//current speed (in pixels/second)
-	float				m_turnSpeed;	//the speed it can turn at (in degrees/second)
+	float				m_direction;	//the current direction of the snake 
+	float				m_speed;		//current speed 
+	float				m_turnSpeed;	//the speed it can turn at 
 
 
 	sf::RenderWindow*	m_window;
+	World*				m_world;
 
 	std::deque<sf::Vector2f>	positionHistory;
     std::size_t					positionHistorySize;
@@ -48,7 +50,7 @@ private:
 
 	std::mt19937                             randomEngine;
 	std::uniform_int_distribution<int>       colourDistribution;	//for getting random colours!
-	
-	sf::View m_view;
+
+	sf::View								m_view;
 };
 

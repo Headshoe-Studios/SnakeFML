@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Snake.hpp"
 #include "MouseSpawner.hpp"
+#include "World.h"
 #include <SFML/Window.hpp>
 
 #include "Button.h"
@@ -37,15 +38,16 @@ int main()
 	exitButton.shape.setSize({ 128 * 3, 128 });
 	exitButton.shape.setPosition(playButton.shape.getPosition() + sf::Vector2f( 0, 192 )); // Magic numbers yay
 
-	// I guess add a background here
-	// sf::RectangleShape background;
-
+	//World
+	World world("Grass.png", { 1000,1000 });
 
 	//our snake
-	Snake snake(&window,"SnakeHead.png");
+	Snake snake(window,world,"SnakeHead.png");
 
 	//mouse spawner
 	MouseSpawner spawner(&window,"Mouse.png", snake);
+
+	
 
 	while (gameState != CLOSING)
 	{
@@ -82,7 +84,7 @@ int main()
 			}
 		}
 
-		window.clear(sf::Color(0, 128, 0));
+		window.clear(sf::Color(50,150, 255));	//because Sea!
 
 		switch (gameState) {
 		case E_GAME_STATE::INGAME:
@@ -94,8 +96,9 @@ int main()
 			spawner.checkCollisions();
 			spawner.spawn();
 
-			window.draw(snake);
+			window.draw(world);
 			spawner.draw();
+			window.draw(snake);
 			break;
 		case E_GAME_STATE::MENU:
 			window.setView(window.getDefaultView());

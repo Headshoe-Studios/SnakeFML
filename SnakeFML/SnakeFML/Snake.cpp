@@ -3,11 +3,12 @@
 #include <cmath>
 #include <chrono>
 
-Snake::Snake(sf::RenderWindow* window, std::string headTexture) : sf::Drawable(),
+Snake::Snake(sf::RenderWindow& window, World& world, std::string headTexture) : sf::Drawable(),
 m_direction(0.f),
 m_speed(150.f),
 m_turnSpeed(3.f),
-m_window(window),
+m_window(&window),
+m_world(&world),
 tailLength(0.1f),
 m_view(m_window->getDefaultView())
 {
@@ -56,6 +57,13 @@ void Snake::update(float dt)
 	auto xOffset = m_speed * dt * std::cos(m_direction);
 	auto yOffset = m_speed * dt * std::sin(m_direction);
 	auto pos = positionHistory[0] + sf::Vector2f(xOffset,yOffset);
+
+	//check we haven't departed this world
+	if (!m_world->getBounds().contains(pos))
+	{
+		respawn();
+		return;
+	}
 
 	//update the history
 	positionHistory.push_front(pos);
@@ -119,6 +127,7 @@ void Snake::update(float dt)
 			if (barycentric(positionHistory[0]) || barycentric(positionHistory[1]))
 			{
 				respawn();
+				return;
 			}
 		}
     }
@@ -140,8 +149,8 @@ void	Snake::respawn()
 {
 	positionHistorySize = snakeOrigSize;
 	positionHistory.clear();
-	sf::Vector2f windowSize(m_window->getSize());
-	positionHistory.push_front({ windowSize.x / 2,windowSize.y / 2 });
+	auto worldBounds(m_world->getBounds());
+	positionHistory.push_front({ worldBounds.width / 2,worldBounds.height / 2 });
 	m_direction = 0;
 	
 	m_view.setRotation(90-m_direction*180/M_PI);
