@@ -25,6 +25,8 @@ int main()
 	sf::Font liberationSans;
 	liberationSans.loadFromFile("LiberationSans-Regular.ttf");
 	sf::Text playerScore;
+	playerScore.setColor(sf::Color(180,0,180));
+	playerScore.setCharacterSize(14);
 	playerScore.setFont(liberationSans);
 
 	//limit to 60 for now. Coil whine is annoying
@@ -99,7 +101,7 @@ int main()
 			window.setView(snake.getView());
 			
 			//update score
-			playerScore.setString(std::to_string(snake.getCurrentScore()));
+			playerScore.setString("Score: " + std::to_string(snake.getCurrentScore()));
 			
 			//check for collisions with mice
 			spawner.checkCollisions();
