@@ -163,6 +163,11 @@ void Snake::addToSize(int scoreToAdd)
 	positionHistorySize += scoreToAdd;
 }
 
+int Snake::getCurrentScore()
+{
+	return positionHistorySize - snakeOrigSize;
+}
+
 sf::View Snake::getView() const
 {
 	return m_view;	

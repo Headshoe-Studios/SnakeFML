@@ -21,6 +21,9 @@ public:
 	bool checkForCollision(sf::FloatRect rect);
 	void addToSize(int scoreToAdd);
 	
+	//get current size - original size to be used as score
+	int getCurrentScore();
+	
 	sf::View getView() const;
 
 private:
