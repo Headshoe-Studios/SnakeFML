@@ -4,12 +4,12 @@
 #include <chrono>
 
 Snake::Snake(sf::RenderWindow& window, World& world, std::string headTexture) : sf::Drawable(),
+tailLength(0.1f),
 m_direction(0.f),
 m_speed(150.f),
 m_turnSpeed(3.f),
 m_window(&window),
 m_world(&world),
-tailLength(0.1f),
 m_view(m_window->getDefaultView())
 {
 	//load the head
