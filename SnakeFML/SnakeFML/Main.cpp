@@ -42,7 +42,7 @@ int main()
 
 
 	//our snake
-	Snake snake(&window);
+	Snake snake(&window,"SnakeHead.png");
 
 	//mouse spawner
 	MouseSpawner spawner(&window,"Mouse.png", snake);
