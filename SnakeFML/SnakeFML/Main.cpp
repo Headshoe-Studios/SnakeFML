@@ -20,6 +20,14 @@ int main()
 
 	float dt = 0; // Delta-Time
 	sf::Clock dtClock;
+	
+	//declare and load font/text for use in showing a score
+	sf::Font liberationSans;
+	liberationSans.loadFromFile("LiberationSans-Regular.ttf");
+	sf::Text playerScore;
+	playerScore.setColor(sf::Color(180,0,180));
+	playerScore.setCharacterSize(14);
+	playerScore.setFont(liberationSans);
 
 	//limit to 60 for now. Coil whine is annoying
 	window.setFramerateLimit(60);
@@ -92,6 +100,9 @@ int main()
 			snake.update(dt);
 			window.setView(snake.getView());
 			
+			//update score
+			playerScore.setString("Score: " + std::to_string(snake.getCurrentScore()));
+			
 			//check for collisions with mice
 			spawner.checkCollisions();
 			spawner.spawn();
@@ -99,6 +110,10 @@ int main()
 			window.draw(world);
 			spawner.draw();
 			window.draw(snake);
+			
+			//set to default view to draw score
+			window.setView(window.getDefaultView());
+			window.draw(playerScore);
 			break;
 		case E_GAME_STATE::MENU:
 			window.setView(window.getDefaultView());
