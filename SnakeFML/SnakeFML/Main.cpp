@@ -21,6 +21,9 @@ int main()
 	//window and framerate control
 	sf::RenderWindow window(sf::VideoMode(800, 800), "SnakeFML");
 	window.setFramerateLimit(60);
+	sf::Image icon;
+	icon.loadFromFile("Icon.png");
+	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 	sf::Clock	dtClock;
 	
 	//Objects
