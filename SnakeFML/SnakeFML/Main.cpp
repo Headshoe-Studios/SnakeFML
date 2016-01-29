@@ -1,78 +1,59 @@
 #include <iostream>
+#include <SFML/Window.hpp>
+
 #include "Snake.hpp"
 #include "MouseSpawner.hpp"
 #include "World.h"
-#include <SFML/Window.hpp>
-
-#include "Button.h"
+#include "Button.hpp"
+#include "Score.hpp"
+#include "Menu.hpp"
 
 int main()
 {
-	enum E_GAME_STATE {
-		MENU = 0,
-		INGAME = 1,
-		CLOSING = 42, // I find this better than forcing a shutdown with window.close() as it prevent's the current execution of the main loop to do strange things, because of the window being closed
-	} gameState = MENU; // Start the game out in the menu
-
-
-	//hardcode size for now...
-	sf::RenderWindow window(sf::VideoMode(800, 800), "SnakeFML");
-
-	float dt = 0; // Delta-Time
-	sf::Clock dtClock;
-	
-	//declare and load font/text for use in showing a score
-	sf::Font liberationSans;
-	liberationSans.loadFromFile("LiberationSans-Regular.ttf");
-	sf::Text playerScore;
-	playerScore.setColor(sf::Color(180,0,180));
-	playerScore.setCharacterSize(14);
-	playerScore.setFont(liberationSans);
-
-	//limit to 60 for now. Coil whine is annoying
-	window.setFramerateLimit(60);
-
-
-	// Our menu
-	Button playButton([&]() {
-		gameState = INGAME;
-	});
-	playButton.shape.setSize({ 128 * 3 , 128 });
-	playButton.shape.setPosition(static_cast<sf::Vector2f>(window.getSize()) / 2.f - playButton.shape.getSize() / 2.f); // Center the button
-
-	Button exitButton([&]() {
-		gameState = CLOSING;
-	});
-	exitButton.shape.setSize({ 128 * 3, 128 });
-	exitButton.shape.setPosition(playButton.shape.getPosition() + sf::Vector2f( 0, 192 )); // Magic numbers yay
-
-	//World
-	World world("Grass.png", { 1000,1000 });
-
-	//our snake
-	Snake snake(window,world,"SnakeHead.png");
-
-	//mouse spawner
-	MouseSpawner spawner(&window,"Mouse.png", snake);
-
-	
-
-	while (gameState != CLOSING)
+	//state
+	enum gameState 
 	{
-		dt = dtClock.restart().asSeconds();
+		MENU,
+		INGAME,
+		EXITING
+	} currentState(MENU); //launch into menu
+
+	//window and framerate control
+	sf::RenderWindow window(sf::VideoMode(800, 800), "SnakeFML");
+	window.setFramerateLimit(60);
+	sf::Clock	dtClock;
+	
+	//Objects
+	Score			score("KBZipaDeeDooDah.ttf");
+	World			world("Grass.png", { 1000,1000 });
+	Snake			snake(window,world,score,"SnakeHead.png");
+	MouseSpawner	spawner(&window,"Mouse.png", snake);
+	Button			playButton([&]() {currentState = INGAME; }, "PlayButton.png");
+	Button			quitButton([&]() {currentState = EXITING; }, "QuitButton.png");
+	Menu			menu(window,{ playButton, quitButton });
+
+	
+
+	while (window.isOpen())
+	{
+		if (currentState == EXITING)
+		{
+			window.close();
+			continue;
+		}
+		auto dt(dtClock.restart().asSeconds());
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
 			{
-				gameState = CLOSING;
+				currentState = EXITING;
 			}
 
-			switch (gameState) 
+			switch (currentState) 
 			{
 			case MENU:
-				playButton.processEvent(event);
-				exitButton.processEvent(event);
+				menu.handleEvent(event);
 				break;
 			case INGAME:
 				if (event.type == sf::Event::KeyPressed)
@@ -81,7 +62,7 @@ int main()
 					{
 						//escape to pause
 					case sf::Keyboard::Escape:
-						gameState = MENU;
+						currentState = MENU;
 						break;
 					default:
 						break;
@@ -94,35 +75,27 @@ int main()
 
 		window.clear(sf::Color(50,150, 255));	//because Sea!
 
-		switch (gameState) {
-		case E_GAME_STATE::INGAME:
-			//update snake
+		if (currentState == INGAME)
+		{
+			//update objects if in game (i.e. not paused)
 			snake.update(dt);
-			window.setView(snake.getView());
-			
-			//update score
-			playerScore.setString("Score: " + std::to_string(snake.getCurrentScore()));
-			
-			//check for collisions with mice
 			spawner.checkCollisions();
 			spawner.spawn();
-
-			window.draw(world);
-			spawner.draw();
-			window.draw(snake);
-			
-			//set to default view to draw score
-			window.setView(window.getDefaultView());
-			window.draw(playerScore);
-			break;
-		case E_GAME_STATE::MENU:
-			window.setView(window.getDefaultView());
-			window.draw(playButton.shape);
-			window.draw(exitButton.shape);
-			break;
-		default:
-			break;
 		}
+
+		//draw the essentials (with the correct view)
+		window.setView(snake.getView());
+		window.draw(world);
+		spawner.draw();
+		window.draw(snake);
+	
+		//default view for score (and menu, if needed)
+		window.setView(window.getDefaultView());
+		window.draw(score);
+
+		if (currentState == MENU)
+			window.draw(menu);
+
 		window.display();
 		sf::sleep(sf::seconds(0));
 	}

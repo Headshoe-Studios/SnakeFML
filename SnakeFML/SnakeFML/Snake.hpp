@@ -4,11 +4,12 @@
 #include <deque>
 #include <random>
 #include "World.h"
+#include "Score.hpp"
 
 class Snake : public sf::Drawable, public sf::Transformable
 {
 public:
-	Snake(sf::RenderWindow& window, World& world, std::string headTexture);
+	Snake(sf::RenderWindow& window, World& world, Score& score, std::string headTexture);
 	~Snake() = default;
 
 	//update the sssssnake
@@ -37,9 +38,9 @@ private:
 	float				m_speed;		//current speed 
 	float				m_turnSpeed;	//the speed it can turn at 
 
-
 	sf::RenderWindow*	m_window;
 	World*				m_world;
+	Score*				m_score;
 
 	std::deque<sf::Vector2f>	positionHistory;
     std::size_t					positionHistorySize;
@@ -55,5 +56,6 @@ private:
 	std::uniform_int_distribution<int>       colourDistribution;	//for getting random colours!
 
 	sf::View								m_view;
+	float									lifeSpan;
 };
 

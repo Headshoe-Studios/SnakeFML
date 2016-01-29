@@ -3,13 +3,14 @@
 #include <cmath>
 #include <chrono>
 
-Snake::Snake(sf::RenderWindow& window, World& world, std::string headTexture) : sf::Drawable(),
-tailLength(0.1f),
+Snake::Snake(sf::RenderWindow& window, World& world, Score& score, std::string headTexture) : sf::Drawable(),
+tailLength(0.2f),
 m_direction(0.f),
 m_speed(150.f),
 m_turnSpeed(3.f),
 m_window(&window),
 m_world(&world),
+m_score(&score),
 m_view(m_window->getDefaultView())
 {
 	//load the head
@@ -67,7 +68,7 @@ void Snake::update(float dt)
 
 	//update the history
 	positionHistory.push_front(pos);
-	while (positionHistory.size() >= positionHistorySize)
+	while (positionHistory.size() > positionHistorySize)
 		positionHistory.pop_back();
 
 	//update the head sprite
@@ -155,12 +156,14 @@ void	Snake::respawn()
 	
 	m_view.setRotation(90-m_direction*180/M_PI);
 	m_view.setCenter(positionHistory.front());
+	m_score->update(positionHistory.size());
 }
 
 void Snake::addToSize(int scoreToAdd)
 {
 	//increment history size for now - should ideally be more accurate
 	positionHistorySize += scoreToAdd;
+	m_score->update(positionHistory.size());
 }
 
 int Snake::getCurrentScore()

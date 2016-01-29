@@ -1,21 +1,25 @@
-#include "Button.h"
+#include "Button.hpp"
 
 
-Button::Button(std::function<void()> t_clickCallback) : clickCallback(t_clickCallback) {
-
+Button::Button(std::function<void()> clickCallback, std::string buttonGraphic) :
+	m_clickCallback(clickCallback)
+{
+	m_graphicTexture.loadFromFile(buttonGraphic);
+	setTexture(m_graphicTexture, true);
 }
 
-void Button::processEvent(const sf::Event& event) {
-	switch (event.type) {
+bool Button::pressed(const sf::Event& event)
+{
+	switch (event.type) 
+	{
 	case sf::Event::MouseButtonPressed:
-		/*
-			Simple check to see whether the button was clicked.
-			MapPixelToCoords is not required since the GUI should be view independent (Potential STC)
-			*/
-		if (shape.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-			clickCallback();
+		if (getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) 
+		{
+			m_clickCallback();
+			return true;
 		}
 	default:
 		break;
 	}
 }
+
