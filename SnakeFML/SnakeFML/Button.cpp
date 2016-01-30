@@ -13,7 +13,7 @@ bool Button::pressed(const sf::Event& event)
 	switch (event.type)
 	{
 	case sf::Event::MouseButtonPressed:
-		if (getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+		if (getGlobalBounds().contains(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y)))
 		{
 			m_clickCallback();
 			return true;

@@ -23,7 +23,7 @@ m_view(m_window->getDefaultView())
 
 	//pick two random body colours
 	auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-	randomEngine.seed(seed);
+	randomEngine.seed(static_cast<int>(seed));
 	colourDistribution = std::uniform_int_distribution<int>(0, sf::Color::White.r);
 
 	auto rnd = [&]
@@ -45,13 +45,13 @@ void Snake::update(float dt)
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		m_direction -= m_turnSpeed * dt;
-		m_view.rotate(-m_turnSpeed * dt * 180/M_PI);		
+		m_view.rotate(-m_turnSpeed * dt * 180/static_cast<float>(M_PI));		
 	}
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
 		|| sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		m_direction += m_turnSpeed * dt;
-		m_view.rotate(m_turnSpeed * dt * 180/M_PI);
+		m_view.rotate(m_turnSpeed * dt * 180/ static_cast<float>(M_PI));
 	}
 
 	//update the position
@@ -73,7 +73,7 @@ void Snake::update(float dt)
 
 	//update the head sprite
 	m_headSprite.setPosition(positionHistory[0]);
-	m_headSprite.setRotation(m_direction * 180 / M_PI);
+	m_headSprite.setRotation(m_direction * 180 / static_cast<float>(M_PI));
 
 	//and the view
 	m_view.setCenter(positionHistory.front());
@@ -154,7 +154,7 @@ void	Snake::respawn()
 	positionHistory.push_front({ worldBounds.width / 2,worldBounds.height / 2 });
 	m_direction = 0;
 	
-	m_view.setRotation(90-m_direction*180/M_PI);
+	m_view.setRotation(90-m_direction*180/ static_cast<float>(M_PI));
 	m_view.setCenter(positionHistory.front());
 	m_score->update(positionHistory.size());
 }

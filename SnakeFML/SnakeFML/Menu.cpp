@@ -16,7 +16,7 @@ Menu::Menu(sf::RenderWindow& window, std::initializer_list<Button> buttons) :
 
 		//position to middle of screen (equal space per button)
 		auto yPos(yDistancePerButton * index + yDistancePerButton / 2);
-		button.setPosition(windowSize.x / 2, yPos);
+		button.setPosition(static_cast<float>(windowSize.x / 2), static_cast<float>(yPos));
 		++index;
 	}
 }

@@ -28,7 +28,7 @@ MouseSpawner::MouseSpawner(sf::RenderWindow* window, std::string mouseTexture, S
 	m_mouseTexture.loadFromFile(mouseTexture);
 
 	auto seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-	randomEngine.seed(seed);
+	randomEngine.seed(static_cast<int>(seed));
 
 	// Currently uses window size
 	auto size = window->getSize();
@@ -47,7 +47,7 @@ void MouseSpawner::spawn()
 		{
 			std::unique_ptr<Mouse> mouse = std::make_unique<Mouse>(nextId, m_mouseTexture);
 
-			sf::FloatRect windowRect(0, 0, window->getSize().x-m_mouseTexture.getSize().x, window->getSize().y - m_mouseTexture.getSize().y);
+			sf::FloatRect windowRect(0, 0, static_cast<float>(window->getSize().x-m_mouseTexture.getSize().x), static_cast<float>(window->getSize().y - m_mouseTexture.getSize().y));
 			bool success;
 			do
 			{
@@ -56,7 +56,7 @@ void MouseSpawner::spawn()
 				//get random spawn position
 				auto xPosition = xDistribution(randomEngine);
 				auto yPosition = yDistribution(randomEngine);
-				mouse->setBodyPosition(xPosition, yPosition);
+				mouse->setBodyPosition(static_cast<float>(xPosition), static_cast<float>(yPosition));
 
 				if (m_snake->checkForCollision(mouse->getBodyRect())) //check it doesn't collide with the snake
 				{
