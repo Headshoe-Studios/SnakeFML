@@ -11,7 +11,7 @@
 int main()
 {
 	//state
-	enum gameState 
+	enum gameState
 	{
 		MENU,
 		INGAME,
@@ -25,7 +25,7 @@ int main()
 	icon.loadFromFile("Icon.png");
 	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 	sf::Clock	dtClock;
-	
+
 	//Objects
 	Score			score("KBZipaDeeDooDah.ttf");
 	World			world("Grass.png", { 1000,1000 });
@@ -35,7 +35,7 @@ int main()
 	Button			quitButton([&]() {currentState = EXITING; }, "QuitButton.png");
 	Menu			menu(window,{ playButton, quitButton });
 
-	
+
 
 	while (window.isOpen())
 	{
@@ -53,7 +53,7 @@ int main()
 				currentState = EXITING;
 			}
 
-			switch (currentState) 
+			switch (currentState)
 			{
 			case MENU:
 				menu.handleEvent(event);
@@ -71,6 +71,7 @@ int main()
 						break;
 					}
 				}
+				break;
 			default:
 				break;
 			}
@@ -91,7 +92,7 @@ int main()
 		window.draw(world);
 		spawner.draw();
 		window.draw(snake);
-	
+
 		//default view for score (and menu, if needed)
 		window.setView(window.getDefaultView());
 		window.draw(score);

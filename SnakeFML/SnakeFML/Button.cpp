@@ -10,10 +10,10 @@ Button::Button(std::function<void()> clickCallback, std::string buttonGraphic) :
 
 bool Button::pressed(const sf::Event& event)
 {
-	switch (event.type) 
+	switch (event.type)
 	{
 	case sf::Event::MouseButtonPressed:
-		if (getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) 
+		if (getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
 		{
 			m_clickCallback();
 			return true;
@@ -21,5 +21,6 @@ bool Button::pressed(const sf::Event& event)
 	default:
 		break;
 	}
+	return false;
 }
 
