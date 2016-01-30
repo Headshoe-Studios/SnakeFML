@@ -13,8 +13,8 @@ set(HDRS
     SnakeFML/Snake.hpp
     SnakeFML/Mouse.hpp
     SnakeFML/MouseSpawner.hpp
-    SnakeFML/Button.h
-    SnakeFML/World.h
+    SnakeFML/Button.hpp
+    SnakeFML/World.hpp
 )
 
 set(SRCS
