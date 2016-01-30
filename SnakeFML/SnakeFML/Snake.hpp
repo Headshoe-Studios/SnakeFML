@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <deque>
 #include <random>
-#include "World.h"
+#include "World.hpp"
 #include "Score.hpp"
 
 class Snake : public sf::Drawable, public sf::Transformable

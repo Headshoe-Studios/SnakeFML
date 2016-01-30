@@ -3,7 +3,7 @@
 
 #include "Snake.hpp"
 #include "MouseSpawner.hpp"
-#include "World.h"
+#include "World.hpp"
 #include "Button.hpp"
 #include "Score.hpp"
 #include "Menu.hpp"
