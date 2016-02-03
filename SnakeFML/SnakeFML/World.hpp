@@ -11,7 +11,9 @@ public:
 
 private:
 	sf::Texture backgroundTexture, m_seaTexture;
-	sf::Sprite	backgroundSprite, m_sea;
-	sf::Shader m_waterEffect;
+	sf::Sprite	backgroundSprite;
+	sf::VertexArray m_sea;
+	mutable sf::Shader m_waterEffect;
+	sf::Clock m_shaderClock;
 };
 
