@@ -10,7 +10,8 @@ public:
 	sf::FloatRect	getBounds();
 
 private:
-	sf::Texture backgroundTexture;
-	sf::Sprite	backgroundSprite;
+	sf::Texture backgroundTexture, m_seaTexture;
+	sf::Sprite	backgroundSprite, m_sea;
+	sf::Shader m_waterEffect;
 };
 
