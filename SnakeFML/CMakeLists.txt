@@ -28,6 +28,7 @@ set(SRCS
     SnakeFML/World.cpp
     SnakeFML/Score.cpp
     SnakeFML/Menu.cpp
+    SnakeFML/WaterEffect.frag
 )
 
 add_executable("${PROJECT_NAME}-exec" ${HDRS} ${SRCS})
@@ -35,7 +36,7 @@ add_executable("${PROJECT_NAME}-exec" ${HDRS} ${SRCS})
 target_link_libraries("${PROJECT_NAME}-exec" ${SFML_LIBRARIES})
 
 install(TARGETS "${PROJECT_NAME}-exec" DESTINATION ${CMAKE_INSTALL_PREFIX})
-install(FILES SnakeFML/Mouse.png DESTINATION ${CMAKE_INSTALL_PREFIX})
-install(FILES SnakeFML/Grass.png DESTINATION ${CMAKE_INSTALL_PREFIX})
-install(FILES SnakeFML/SnakeHead.png DESTINATION ${CMAKE_INSTALL_PREFIX})
-install(FILES SnakeFML/LiberationSans-Regular.ttf DESTINATION ${CMAKE_INSTALL_PREFIX})
+FILE(GLOB images "SnakeFML/*.png")
+INSTALL(FILES ${images} DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(FILES SnakeFML/KBZipaDeeDooDah.ttf DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(FILES SnakeFML/WaterEffect.frag DESTINATION ${CMAKE_INSTALL_PREFIX})
