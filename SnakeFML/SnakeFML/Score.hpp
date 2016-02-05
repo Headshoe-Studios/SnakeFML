@@ -14,6 +14,9 @@ private:
 	sf::Font			m_displayFont;
 	sf::Text			m_displayText;
 
+	int					m_highScore;
+	sf::Text			m_highScoreText;
+
 	virtual void		draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 

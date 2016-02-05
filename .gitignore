@@ -215,3 +215,5 @@ ModelManifest.xml
 *.filters
 SnakeFML/SnakeFML.VC.opendb
 *.config
+*.opendb
+*.snake
