@@ -1,7 +1,8 @@
 #include "Score.hpp"
 #include <fstream>
 
-Score::Score(std::string fontFile)
+Score::Score(std::string fontFile):
+	m_highScore(0)
 {
 	m_displayFont.loadFromFile(fontFile);
 	m_displayText.setFont(m_displayFont);
