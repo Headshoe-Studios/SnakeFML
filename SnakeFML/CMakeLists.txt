@@ -10,33 +10,33 @@ find_package(SFML 2 REQUIRED graphics window system)
 include_directories(${SFML_INCLUDE_DIR})
 
 set(HDRS
-    SnakeFML/Snake.hpp
-    SnakeFML/Mouse.hpp
-    SnakeFML/MouseSpawner.hpp
-    SnakeFML/Button.hpp
-    SnakeFML/World.hpp
-    SnakeFML/Score.hpp
-    SnakeFML/Menu.hpp
+    Snake.hpp
+    Mouse.hpp
+    MouseSpawner.hpp
+    Button.hpp
+    World.hpp
+    Score.hpp
+    Menu.hpp
 )
 
 set(SRCS
-    SnakeFML/Snake.cpp
-    SnakeFML/Mouse.cpp
-    SnakeFML/MouseSpawner.cpp
-    SnakeFML/Main.cpp
-    SnakeFML/Button.cpp
-    SnakeFML/World.cpp
-    SnakeFML/Score.cpp
-    SnakeFML/Menu.cpp
-    SnakeFML/WaterEffect.frag
+    Snake.cpp
+    Mouse.cpp
+    MouseSpawner.cpp
+    Main.cpp
+    Button.cpp
+    World.cpp
+    Score.cpp
+    Menu.cpp
+    WaterEffect.frag
 )
 
-add_executable("${PROJECT_NAME}-exec" ${HDRS} ${SRCS})
+add_executable("${PROJECT_NAME}" ${HDRS} ${SRCS})
 
-target_link_libraries("${PROJECT_NAME}-exec" ${SFML_LIBRARIES})
+target_link_libraries("${PROJECT_NAME}" ${SFML_LIBRARIES})
 
-install(TARGETS "${PROJECT_NAME}-exec" DESTINATION ${CMAKE_INSTALL_PREFIX})
-FILE(GLOB images "SnakeFML/*.png")
+install(TARGETS "${PROJECT_NAME}" DESTINATION ${CMAKE_INSTALL_PREFIX})
+FILE(GLOB images "*.png")
 INSTALL(FILES ${images} DESTINATION ${CMAKE_INSTALL_PREFIX})
 install(FILES SnakeFML/KBZipaDeeDooDah.ttf DESTINATION ${CMAKE_INSTALL_PREFIX})
 install(FILES SnakeFML/WaterEffect.frag DESTINATION ${CMAKE_INSTALL_PREFIX})
