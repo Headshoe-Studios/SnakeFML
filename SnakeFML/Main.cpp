@@ -25,7 +25,7 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(800, 800), "SnakeFML");
 	window.setFramerateLimit(60);
 	sf::Image icon;
-	icon.loadFromFile("Icon.png");
+    icon.loadFromFile("icon.png");
 	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 	sf::Clock	dtClock;
 
@@ -35,9 +35,9 @@ int main()
 	World			world("Grass.png", { 1000,1000 });
     Snake			snake(window,world,score,"SnakeHead.png", options);
 	MouseSpawner	spawner(&window,"Mouse.png", snake);
-	Button			playButton([&]() {currentState = INGAME; }, "PlayButton.png");
-	Button			quitButton([&]() {currentState = EXITING; }, "QuitButton.png");
-	Menu			menu(window,{ playButton, quitButton });
+//	Button			playButton([&]() {currentState = INGAME; }, "PlayButton.png");
+//	Button			quitButton([&]() {currentState = EXITING; }, "QuitButton.png");
+//	Menu			menu(window,{ playButton, quitButton });
 
     sfg::SFGUI sfgui;
     sfg::Desktop desktop;
@@ -52,7 +52,43 @@ int main()
     auto optionsWidget = sfg::Window::Create();
     optionsWidget->SetTitle("Options");
     optionsWidget->Add(vbox);
+    optionsWidget->Show(false);
     desktop.Add(optionsWidget);
+
+    auto menuBox = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
+
+    auto playButton = sfg::Button::Create("Play");
+    playButton->SetId("Play");
+    playButton->GetSignal(sfg::Button::OnLeftClick).Connect([&currentState, &menuBox]{
+        currentState = INGAME;
+        menuBox->Show(false);
+    });
+    auto quitButton = sfg::Button::Create("Quit");
+    quitButton->SetId("Quit");
+    quitButton->GetSignal(sfg::Button::OnLeftClick).Connect([&currentState, &menuBox]{
+        currentState = EXITING;
+        menuBox->Show(true);
+    });
+
+    menuBox->Pack(playButton);
+    menuBox->Pack(quitButton);
+    menuBox->SetPosition({200, 200});
+    desktop.Add(menuBox);
+
+    auto font = std::make_shared<sf::Font>(sf::Font());
+    font->loadFromFile("KBZipaDeeDooDah.ttf");
+    //desktop.GetEngine().GetResourceManager().AddFont("font:", font);
+
+    auto makeMenuButton = [&desktop](const std::string& name){
+        auto id = "#"+name;
+        desktop.SetProperty( id, "FontSize", "200" );
+        desktop.SetProperty( id, "FontName", "KBZipaDeeDooDah.ttf" );
+        desktop.SetProperty( id, "BackgroundColor", "#00000000" );
+        desktop.SetProperty( id, "BorderColor", "#00000000" );
+    };
+
+    makeMenuButton("Play");
+    makeMenuButton("Quit");
 
 	while (window.isOpen())
 	{
@@ -74,7 +110,7 @@ int main()
 			{
 			case MENU:
                 desktop.HandleEvent(event);
-				menu.handleEvent(event);
+                //menu.handleEvent(event);
 				break;
 			case INGAME:
 				if (event.type == sf::Event::KeyPressed)
@@ -118,8 +154,8 @@ int main()
 		window.setView(window.getDefaultView());
 		window.draw(score);
 
-		if (currentState == MENU)
-			window.draw(menu);
+//		if (currentState == MENU)
+//			window.draw(menu);
 
         sfgui.Display(window);
 
