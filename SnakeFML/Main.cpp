@@ -7,6 +7,7 @@
 #include "Button.hpp"
 #include "Score.hpp"
 #include "Menu.hpp"
+#include "Options.hpp"
 
 int main()
 {
@@ -27,9 +28,10 @@ int main()
 	sf::Clock	dtClock;
 
 	//Objects
+    Options         options;
 	Score			score("KBZipaDeeDooDah.ttf");
 	World			world("Grass.png", { 1000,1000 });
-	Snake			snake(window,world,score,"SnakeHead.png");
+    Snake			snake(window,world,score,"SnakeHead.png", options);
 	MouseSpawner	spawner(&window,"Mouse.png", snake);
 	Button			playButton([&]() {currentState = INGAME; }, "PlayButton.png");
 	Button			quitButton([&]() {currentState = EXITING; }, "QuitButton.png");

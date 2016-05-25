@@ -17,6 +17,7 @@ set(HDRS
     World.hpp
     Score.hpp
     Menu.hpp
+    Options.hpp
 )
 
 set(SRCS
@@ -28,6 +29,7 @@ set(SRCS
     World.cpp
     Score.cpp
     Menu.cpp
+    Options.cpp
     WaterEffect.frag
 )
 
