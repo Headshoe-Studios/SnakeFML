@@ -63,6 +63,11 @@ int main()
         currentState = INGAME;
         menuBox->Show(false);
     });
+    auto optionsButton = sfg::Button::Create("Options");
+    optionsButton->SetId("Options");
+    optionsButton->GetSignal(sfg::Button::OnLeftClick).Connect([&optionsWidget]{
+        optionsWidget->Show(true);
+    });
     auto quitButton = sfg::Button::Create("Quit");
     quitButton->SetId("Quit");
     quitButton->GetSignal(sfg::Button::OnLeftClick).Connect([&currentState, &menuBox]{
@@ -71,8 +76,9 @@ int main()
     });
 
     menuBox->Pack(playButton);
+    menuBox->Pack(optionsButton);
     menuBox->Pack(quitButton);
-    menuBox->SetPosition({200, 200});
+    menuBox->SetPosition({20, 50});
     desktop.Add(menuBox);
 
     auto font = std::make_shared<sf::Font>(sf::Font());
@@ -88,6 +94,7 @@ int main()
     };
 
     makeMenuButton("Play");
+    makeMenuButton("Options");
     makeMenuButton("Quit");
 
 	while (window.isOpen())
