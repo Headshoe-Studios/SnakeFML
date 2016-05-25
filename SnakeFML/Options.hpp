@@ -6,6 +6,7 @@ public:
     Options();
 
     float getSnakeSpeed() const;
+    bool getMovingCamera() const;
 
 private:
     bool m_movingCamera;

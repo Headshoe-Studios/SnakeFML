@@ -90,7 +90,8 @@ int main()
 		}
 
 		//draw the essentials (with the correct view)
-		window.setView(snake.getView());
+        if (options.getMovingCamera())
+            window.setView(snake.getView());
 		window.draw(world);
 		spawner.draw();
 		window.draw(snake);

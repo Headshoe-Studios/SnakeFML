@@ -11,3 +11,8 @@ float Options::getSnakeSpeed() const
 {
     return m_snakeSpeed;
 }
+
+bool Options::getMovingCamera() const
+{
+    return m_movingCamera;
+}
