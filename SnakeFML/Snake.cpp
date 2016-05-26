@@ -185,6 +185,7 @@ float Snake::getSpeed() const
 void Snake::setSpeed(float speed)
 {
     m_speed = speed;
+    m_turnSpeed = m_speed/50.f;
 }
 
 void Snake::draw(sf::RenderTarget& target, sf::RenderStates states) const
