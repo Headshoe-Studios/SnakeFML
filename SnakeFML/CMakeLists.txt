@@ -6,8 +6,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++14")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 find_package(SFML 2 REQUIRED graphics window system)
+find_package(SFGUI REQUIRED)
 
-include_directories(${SFML_INCLUDE_DIR})
+include_directories(${SFML_INCLUDE_DIR}
+                    ${SFGUI_INCLUDE_DIR})
 
 set(HDRS
     Snake.hpp
@@ -17,6 +19,7 @@ set(HDRS
     World.hpp
     Score.hpp
     Menu.hpp
+    Options.hpp
 )
 
 set(SRCS
@@ -28,15 +31,17 @@ set(SRCS
     World.cpp
     Score.cpp
     Menu.cpp
+    Options.cpp
     WaterEffect.frag
 )
 
 add_executable("${PROJECT_NAME}" ${HDRS} ${SRCS})
 
-target_link_libraries("${PROJECT_NAME}" ${SFML_LIBRARIES})
+target_link_libraries("${PROJECT_NAME}" ${SFML_LIBRARIES}
+                                        ${SFGUI_LIBRARY})
 
 install(TARGETS "${PROJECT_NAME}" DESTINATION ${CMAKE_INSTALL_PREFIX})
 FILE(GLOB images "*.png")
 INSTALL(FILES ${images} DESTINATION ${CMAKE_INSTALL_PREFIX})
-install(FILES SnakeFML/KBZipaDeeDooDah.ttf DESTINATION ${CMAKE_INSTALL_PREFIX})
-install(FILES SnakeFML/WaterEffect.frag DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(FILES KBZipaDeeDooDah.ttf DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(FILES WaterEffect.frag DESTINATION ${CMAKE_INSTALL_PREFIX})

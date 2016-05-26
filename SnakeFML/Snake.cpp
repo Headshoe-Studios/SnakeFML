@@ -2,6 +2,7 @@
 #include "Snake.hpp"
 #include <cmath>
 #include <chrono>
+#include "Options.hpp"
 
 Snake::Snake(sf::RenderWindow& window, World& world, Score& score, std::string headTexture) : sf::Drawable(),
 tailLength(0.2f),
@@ -173,7 +174,18 @@ int Snake::getCurrentScore()
 
 sf::View Snake::getView() const
 {
-	return m_view;	
+    return m_view;
+}
+
+float Snake::getSpeed() const
+{
+    return m_speed;
+}
+
+void Snake::setSpeed(float speed)
+{
+    m_speed = speed;
+    m_turnSpeed = m_speed/50.f;
 }
 
 void Snake::draw(sf::RenderTarget& target, sf::RenderStates states) const
