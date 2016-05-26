@@ -43,23 +43,36 @@ int main()
     sfg::Desktop desktop;
 
     auto movingCameraWidget = sfg::CheckButton::Create("Camera follows snake");
+    movingCameraWidget->SetClass("Options");
     auto snakeSpeedWidget = sfg::SpinButton::Create(100.f, 200.f, 5.f);
+    snakeSpeedWidget->SetClass("Options");
     auto snakeSpeedLabel = sfg::Label::Create("Snake speed:");
-    auto vbox = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
+    snakeSpeedLabel->SetClass("Options");
+    auto hbox = sfg::Box::Create(sfg::Box::Orientation::HORIZONTAL);
+    hbox->Pack(snakeSpeedLabel);
+    hbox->Pack(snakeSpeedWidget);
+    auto doneButton = sfg::Button::Create("Done");
+    doneButton->SetClass("Options");
+    auto vbox = sfg::Box::Create(sfg::Box::Orientation::VERTICAL, 20.f);
     vbox->Pack(movingCameraWidget);
-    vbox->Pack(snakeSpeedLabel);
-    vbox->Pack(snakeSpeedWidget);
-    auto optionsWidget = sfg::Window::Create();
+    vbox->Pack(hbox);
+    vbox->Pack(doneButton);
+    auto optionsWidget = sfg::Window::Create(sfg::Window::NO_STYLE);
     optionsWidget->SetTitle("Options");
     optionsWidget->Add(vbox);
+    optionsWidget->SetPosition({100.f, 200.f});
     optionsWidget->Show(false);
     desktop.Add(optionsWidget);
 
     auto menuBox = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
 
-    menuBox->SetPosition({20, 50});
+    menuBox->SetPosition({50, 50});
     desktop.Add(menuBox);
 
+    desktop.SetProperty(".Options", "FontSize", "50" );
+    desktop.SetProperty(".Options", "BackgroundColor", "#00000000" );
+    desktop.SetProperty("SpinButton", "StepperBackgroundColor", "#00000000" );
+    desktop.SetProperty("*", "FontName", "KBZipaDeeDooDah.ttf" );
 
     auto makeMenuButton = [&desktop, &menuBox](const std::string& name, std::function< void()> delegate){
         auto button = sfg::Button::Create(name);
@@ -70,7 +83,7 @@ int main()
 
         auto id = "#"+name;
         desktop.SetProperty( id, "FontSize", "200" );
-        desktop.SetProperty( id, "FontName", "KBZipaDeeDooDah.ttf" );
+
         desktop.SetProperty( id, "BackgroundColor", "#00000000" );
         desktop.SetProperty( id, "BorderColor", "#00000000" );
     };
@@ -79,11 +92,17 @@ int main()
         currentState = INGAME;
         menuBox->Show(false);
     });
-    makeMenuButton("Options", [&optionsWidget]{
+    makeMenuButton("Options", [&optionsWidget, &menuBox]{
+        menuBox->Show(false);
         optionsWidget->Show(true);
     });
     makeMenuButton("Quit", [&currentState, &menuBox]{
         currentState = EXITING;
+    });
+
+    doneButton->GetSignal(sfg::Button::OnLeftClick).Connect([&optionsWidget, &menuBox]{
+        menuBox->Show(true);
+        optionsWidget->Show(false);
     });
 
     while (window.isOpen())
