@@ -4,10 +4,10 @@
 #include <chrono>
 #include "Options.hpp"
 
-Snake::Snake(sf::RenderWindow& window, World& world, Score& score, std::string headTexture, const Options& options) : sf::Drawable(),
+Snake::Snake(sf::RenderWindow& window, World& world, Score& score, std::string headTexture) : sf::Drawable(),
 tailLength(0.2f),
 m_direction(0.f),
-m_speed(options.getSnakeSpeed()),
+m_speed(150.f),
 m_turnSpeed(3.f),
 m_window(&window),
 m_world(&world),
@@ -174,7 +174,17 @@ int Snake::getCurrentScore()
 
 sf::View Snake::getView() const
 {
-	return m_view;	
+    return m_view;
+}
+
+float Snake::getSpeed() const
+{
+    return m_speed;
+}
+
+void Snake::setSpeed(float speed)
+{
+    m_speed = speed;
 }
 
 void Snake::draw(sf::RenderTarget& target, sf::RenderStates states) const

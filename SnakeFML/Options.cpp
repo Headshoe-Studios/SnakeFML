@@ -1,18 +1,17 @@
 #include "Options.hpp"
 
 Options::Options():
-    m_movingCamera(true),
-    m_snakeSpeed(150.f)
+    m_movingCamera(true)
 {
 
-}
-
-float Options::getSnakeSpeed() const
-{
-    return m_snakeSpeed;
 }
 
 bool Options::getMovingCamera() const
 {
     return m_movingCamera;
+}
+
+void Options::setMovingCamera(bool movingCamera)
+{
+    m_movingCamera = movingCamera;
 }

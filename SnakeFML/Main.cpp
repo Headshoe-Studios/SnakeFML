@@ -33,7 +33,7 @@ int main()
     Options         options;
     Score			score("KBZipaDeeDooDah.ttf");
     World			world("Grass.png", { 1000,1000 });
-    Snake			snake(window,world,score,"SnakeHead.png", options);
+    Snake			snake(window,world,score,"SnakeHead.png");
     MouseSpawner	spawner(&window,"Mouse.png", snake);
     //	Button			playButton([&]() {currentState = INGAME; }, "PlayButton.png");
     //	Button			quitButton([&]() {currentState = EXITING; }, "QuitButton.png");
@@ -43,8 +43,10 @@ int main()
     sfg::Desktop desktop;
 
     auto movingCameraWidget = sfg::CheckButton::Create("Camera follows snake");
+    movingCameraWidget->SetActive(options.getMovingCamera());
     movingCameraWidget->SetClass("Options");
-    auto snakeSpeedWidget = sfg::SpinButton::Create(100.f, 200.f, 5.f);
+    auto snakeSpeedWidget = sfg::SpinButton::Create(100.f, 400.f, 5.f);
+    snakeSpeedWidget->SetValue(snake.getSpeed());
     snakeSpeedWidget->SetClass("Options");
     auto snakeSpeedLabel = sfg::Label::Create("Snake speed:");
     snakeSpeedLabel->SetClass("Options");
@@ -88,21 +90,29 @@ int main()
         desktop.SetProperty( id, "BorderColor", "#00000000" );
     };
 
-    makeMenuButton("Play", [&currentState, &menuBox]{
+    makeMenuButton("Play", [&currentState, menuBox]{
         currentState = INGAME;
         menuBox->Show(false);
     });
-    makeMenuButton("Options", [&optionsWidget, &menuBox]{
+    makeMenuButton("Options", [optionsWidget, menuBox]{
         menuBox->Show(false);
         optionsWidget->Show(true);
     });
-    makeMenuButton("Quit", [&currentState, &menuBox]{
+    makeMenuButton("Quit", [&currentState, menuBox]{
         currentState = EXITING;
     });
 
-    doneButton->GetSignal(sfg::Button::OnLeftClick).Connect([&optionsWidget, &menuBox]{
+    doneButton->GetSignal(sfg::Button::OnLeftClick).Connect([optionsWidget,
+                                                             movingCameraWidget,
+                                                             snakeSpeedWidget,
+                                                             menuBox,
+                                                            &options,
+                                                            &snake]
+    {
         menuBox->Show(true);
         optionsWidget->Show(false);
+        options.setMovingCamera(movingCameraWidget->IsActive());
+        snake.setSpeed(snakeSpeedWidget->GetValue());
     });
 
     while (window.isOpen())

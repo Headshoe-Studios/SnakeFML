@@ -11,7 +11,7 @@ class Options;
 class Snake : public sf::Drawable, public sf::Transformable
 {
 public:
-    Snake(sf::RenderWindow& window, World& world, Score& score, std::string headTexture, const Options &options);
+    Snake(sf::RenderWindow& window, World& world, Score& score, std::string headTexture);
 	~Snake() = default;
 
 	//update the sssssnake
@@ -28,6 +28,9 @@ public:
 	int getCurrentScore();
 	
 	sf::View getView() const;
+
+    float getSpeed() const;
+    void setSpeed(float speed);
 
 private:
 
