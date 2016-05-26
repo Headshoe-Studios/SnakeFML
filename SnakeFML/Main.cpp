@@ -57,35 +57,17 @@ int main()
 
     auto menuBox = sfg::Box::Create(sfg::Box::Orientation::VERTICAL);
 
-    auto playButton = sfg::Button::Create("Play");
-    playButton->SetId("Play");
-    playButton->GetSignal(sfg::Button::OnLeftClick).Connect([&currentState, &menuBox]{
-        currentState = INGAME;
-        menuBox->Show(false);
-    });
-    auto optionsButton = sfg::Button::Create("Options");
-    optionsButton->SetId("Options");
-    optionsButton->GetSignal(sfg::Button::OnLeftClick).Connect([&optionsWidget]{
-        optionsWidget->Show(true);
-    });
-    auto quitButton = sfg::Button::Create("Quit");
-    quitButton->SetId("Quit");
-    quitButton->GetSignal(sfg::Button::OnLeftClick).Connect([&currentState, &menuBox]{
-        currentState = EXITING;
-        menuBox->Show(true);
-    });
-
-    menuBox->Pack(playButton);
-    menuBox->Pack(optionsButton);
-    menuBox->Pack(quitButton);
     menuBox->SetPosition({20, 50});
     desktop.Add(menuBox);
 
-    auto font = std::make_shared<sf::Font>(sf::Font());
-    font->loadFromFile("KBZipaDeeDooDah.ttf");
-    //desktop.GetEngine().GetResourceManager().AddFont("font:", font);
 
-    auto makeMenuButton = [&desktop](const std::string& name){
+    auto makeMenuButton = [&desktop, &menuBox](const std::string& name, std::function< void()> delegate){
+        auto button = sfg::Button::Create(name);
+        button->SetId(name);
+        button->GetSignal(sfg::Button::OnLeftClick).Connect(std::move(delegate));
+
+        menuBox->Pack(button);
+
         auto id = "#"+name;
         desktop.SetProperty( id, "FontSize", "200" );
         desktop.SetProperty( id, "FontName", "KBZipaDeeDooDah.ttf" );
@@ -93,9 +75,17 @@ int main()
         desktop.SetProperty( id, "BorderColor", "#00000000" );
     };
 
-    makeMenuButton("Play");
-    makeMenuButton("Options");
-    makeMenuButton("Quit");
+    makeMenuButton("Play", [&currentState, &menuBox]{
+        currentState = INGAME;
+        menuBox->Show(false);
+    });
+    makeMenuButton("Options", [&optionsWidget]{
+        optionsWidget->Show(true);
+    });
+    makeMenuButton("Quit", [&currentState, &menuBox]{
+        currentState = EXITING;
+        menuBox->Show(true);
+    });
 
 	while (window.isOpen())
 	{
