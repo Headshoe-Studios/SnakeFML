@@ -40,6 +40,10 @@ int main()
     //	Menu			menu(window,{ playButton, quitButton });
 
     sfg::SFGUI sfgui;
+
+    sfgui.AddCharacterSet(48, 58);
+    sfgui.AddCharacterSet(97, 123);
+
     sfg::Desktop desktop;
 
     auto movingCameraWidget = sfg::CheckButton::Create("Camera follows snake");
