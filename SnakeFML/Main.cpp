@@ -4,9 +4,7 @@
 #include "Snake.hpp"
 #include "MouseSpawner.hpp"
 #include "World.hpp"
-#include "Button.hpp"
 #include "Score.hpp"
-#include "Menu.hpp"
 #include "Options.hpp"
 #include <SFGUI/SFGUI.hpp>
 #include <SFGUI/Widgets.hpp>
@@ -25,19 +23,16 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 800), "SnakeFML");
     window.setFramerateLimit(60);
     sf::Image icon;
-    icon.loadFromFile("icon.png");
+    icon.loadFromFile("Assets/Images/icon.png");
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     sf::Clock	dtClock;
 
     //Objects
     Options         options;
     Score			score("KBZipaDeeDooDah.ttf");
-    World			world("Grass.png", { 1000,1000 });
-    Snake			snake(window,world,score,"SnakeHead.png");
-    MouseSpawner	spawner(&window,"Mouse.png", snake);
-    //	Button			playButton([&]() {currentState = INGAME; }, "PlayButton.png");
-    //	Button			quitButton([&]() {currentState = EXITING; }, "QuitButton.png");
-    //	Menu			menu(window,{ playButton, quitButton });
+    World			world("Assets/Images/Grass.png", { 1000,1000 });
+    Snake			snake(window,world,score,"Assets/Images/SnakeHead.png");
+    MouseSpawner	spawner(&window,"Assets/Images/Mouse.png", snake);
 
     sfg::SFGUI sfgui;
     sfg::Desktop desktop;

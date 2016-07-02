@@ -14,6 +14,10 @@ m_world(&world),
 m_score(&score),
 m_view(m_window->getDefaultView())
 {
+	//sound
+	m_eatSoundBuffer.loadFromFile("Assets/Sounds/Squeak.wav");
+	m_eatSound.setBuffer(m_eatSoundBuffer);
+
 	//load the head
 	m_headTexture.loadFromFile(headTexture);
 	m_headSprite.setTexture(m_headTexture, true);
@@ -165,6 +169,9 @@ void Snake::addToSize(int scoreToAdd)
 	//increment history size for now - should ideally be more accurate
 	positionHistorySize += scoreToAdd;
 	m_score->update(positionHistory.size());
+
+	//presume we've eaten, so make the sound
+	m_eatSound.play();
 }
 
 int Snake::getCurrentScore()

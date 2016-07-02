@@ -9,7 +9,7 @@ World::World(std::string backgroundTile, sf::Vector2i size)
 	backgroundSprite.setTextureRect({ 0,0,size.x,size.y }); //because tiled texture
 	
 	//sea
-	m_seaTexture.loadFromFile("SeaTile.png");
+	m_seaTexture.loadFromFile("Assets/Images/SeaTile.png");
 	sf::Vector2f seaTopLeft(backgroundSprite.getPosition().x-size.x/2.f,
 							backgroundSprite.getPosition().y-size.y/2.f);
 	m_sea.setPrimitiveType(sf::Quads);

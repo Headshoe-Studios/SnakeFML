@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <deque>
 #include <random>
 #include "World.hpp"
@@ -62,5 +63,8 @@ private:
 
 	sf::View								m_view;
 	float									lifeSpan;
+
+	sf::Sound										m_eatSound;
+	sf::SoundBuffer									m_eatSoundBuffer;
 };
 
